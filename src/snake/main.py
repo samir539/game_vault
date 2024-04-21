@@ -53,10 +53,11 @@ def main():
     #grid lines
     # grid_cords = np.
     line_color = (255, 0, 0)
-    pygame.draw.line(screen, line_color, (80, 0), (80, 500))
-    pygame.draw.line(screen, line_color, (160, 0), (160, 500))
-
-    pygame.display.flip()
+    for i in range(cols_arr.shape[0]):
+        pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
+        pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
+        pygame.display.flip()
+    
 
     #init snake
     snake = Snake()
@@ -75,5 +76,5 @@ def main():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    # main()
-    pass
+    main()
+    
