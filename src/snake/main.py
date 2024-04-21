@@ -9,6 +9,7 @@ try:
     import os
     import getopt
     import pygame
+    from einops import rearrange
     from socket import *
     from pygame.locals import *
     import numpy as np
@@ -19,11 +20,17 @@ except ImportError:
     sys.exit(2)
 
 
-
-DISPLAY = [512,512]
+SCREENWIDTH = 512
+SCREENHEIGHT = 512
+ORIGIN_X = 0
+ORIGIN_Y = 0
+DISPLAY = [SCREENWIDTH,SCREENHEIGHT]
 cube_dim = pygame.image.load("data/square.png").get_rect()
 CUBE_WIDTH = cube_dim.width
 CUBE_HEIGHT = cube_dim.height
+cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH)
+rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT)
+
 
 
 
@@ -68,4 +75,5 @@ def main():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    main()
+    # main()
+    pass
