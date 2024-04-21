@@ -12,6 +12,7 @@ try:
     from socket import *
     from pygame.locals import *
     import numpy as np
+    from game_objects import Snake, Board
 except ImportError:
     print(f"could not load a module")
     sys.exit(2)
@@ -35,13 +36,19 @@ def main():
     screen.blit(background,(0,0))
     pygame.display.flip()
 
+    #init snake
+    snake = Snake()
+    snake_sprites = pygame.sprite.RenderPlain(snake)
+
     #event loop
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
         
-        screen.blit(background,(0,0))
+        screen.blit(background,snake.rect,snake.rect)
+        snake_sprites.update()
+        snake_sprites.draw(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":
