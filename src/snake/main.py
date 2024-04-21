@@ -51,7 +51,6 @@ def main():
     pygame.display.flip()
 
     #grid lines
-    # grid_cords = np.
     line_color = (255, 0, 0)
     for i in range(cols_arr.shape[0]):
         pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
@@ -63,11 +62,27 @@ def main():
     snake = Snake()
     snake_sprites = pygame.sprite.RenderPlain(snake)
 
+    #init clock 
+    clock = pygame.time.Clock()
+
     #event loop
     while True:
+        clock.tick(60)
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
+            elif event.type == KEYDOWN:
+                if event.key == K_UP:
+                    pass
+                if event.key == K_DOWN:
+                    pass
+                if event.key == K_LEFT:
+                    pass
+                if event.key == K_RIGHT:
+                    pass
+            elif event.type == KEYUP:
+                if event.key == K_UP or event.key == K_DOWN or event.key == K_LEFT or event.key == K_RIGHT:
+                    pass
         
         screen.blit(background,snake.rect,snake.rect)
 
