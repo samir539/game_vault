@@ -62,29 +62,33 @@ def main():
     #init clock 
     clock = pygame.time.Clock()
 
+    #keydown 
+    keydown = False
+
     #event loop
     while True:
+        for i in range(cols_arr.shape[0]):
+                pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
+                pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
         clock.tick(60)
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
             elif event.type == KEYDOWN:
                 if event.key == K_UP:
-                    pass
+                    snake.move_snake("up") == True
                 if event.key == K_DOWN:
-                    pass
+                    snake.move_snake("down") == True
                 if event.key == K_LEFT:
-                    pass
+                    snake.move_snake("left") == True
                 if event.key == K_RIGHT:
-                    snake.move_snake()
+                    snake.move_snake("right") == True
                     print("hello world")
             elif event.type == KEYUP:
                 if event.key == K_UP or event.key == K_DOWN or event.key == K_LEFT or event.key == K_RIGHT:
                     snake.move_pos = [0,0]
 
-        for i in range(cols_arr.shape[0]):
-            pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
-            pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
+        
     
         
         screen.blit(background,snake.rect,snake.rect)
