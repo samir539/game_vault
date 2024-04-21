@@ -13,13 +13,18 @@ try:
     from pygame.locals import *
     import numpy as np
     from game_objects import Snake, Board
+    from resource_handling import load_image
 except ImportError:
     print(f"could not load a module")
     sys.exit(2)
 
 
 
-DISPLAY = [500,500]
+DISPLAY = [512,512]
+cube_dim = pygame.image.load("data/square.png").get_rect()
+CUBE_WIDTH = cube_dim.width
+CUBE_HEIGHT = cube_dim.height
+
 
 
 def main():
@@ -32,8 +37,18 @@ def main():
     background = background.convert()
     background.fill((0,0,0))
 
+    
+
     #blit background
     screen.blit(background,(0,0))
+    pygame.display.flip()
+
+    #grid lines
+    # grid_cords = np.
+    line_color = (255, 0, 0)
+    pygame.draw.line(screen, line_color, (80, 0), (80, 500))
+    pygame.draw.line(screen, line_color, (160, 0), (160, 500))
+
     pygame.display.flip()
 
     #init snake
@@ -47,6 +62,7 @@ def main():
                 return
         
         screen.blit(background,snake.rect,snake.rect)
+
         snake_sprites.update()
         snake_sprites.draw(screen)
         pygame.display.flip()
