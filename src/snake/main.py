@@ -52,10 +52,7 @@ def main():
 
     #grid lines
     line_color = (255, 0, 0)
-    for i in range(cols_arr.shape[0]):
-        pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
-        pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
-        pygame.display.flip()
+    
     
 
     #init snake
@@ -79,13 +76,18 @@ def main():
                 if event.key == K_LEFT:
                     pass
                 if event.key == K_RIGHT:
-                    pass
+                    snake.move_snake()
+                    print("hello world")
             elif event.type == KEYUP:
                 if event.key == K_UP or event.key == K_DOWN or event.key == K_LEFT or event.key == K_RIGHT:
-                    pass
+                    snake.move_pos = [0,0]
+
+        for i in range(cols_arr.shape[0]):
+            pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
+            pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
+    
         
         screen.blit(background,snake.rect,snake.rect)
-
         snake_sprites.update()
         snake_sprites.draw(screen)
         pygame.display.flip()
