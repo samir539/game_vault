@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "game_vault"
+authors = [{name = "samir539"}]
+description = "a collection of games"
+readme = "README.md"
+dependencies = ["pygame == 2.5.2","numpy==1.26.4","scipy == 1.13.0", "matplotlib == 3.8.3", "einops == 0.7.0", "tqdm == 4.66.2"]
+version= "0.1.0-dev"
