@@ -18,6 +18,9 @@ class Snake(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("square.png ")
 
+if __name__ == "__main__":
+    pass
+
 
 
 
