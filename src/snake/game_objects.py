@@ -17,6 +17,7 @@ class Snake(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("square.png ")
+        # self.direction = None
         self.move_pos = [0,0]
 
     #class function
@@ -34,6 +35,7 @@ class Snake(pygame.sprite.Sprite):
         pygame.event.pump()
 
     def move_snake(self,direction=None, state=False):
+        self.move_pos = [0,0]
         if direction == "left":
             self.move_pos[0] -= 16
         if direction == "right":
