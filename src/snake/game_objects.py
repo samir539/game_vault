@@ -7,6 +7,12 @@ import pygame
 from resource_handling import load_image
 
 
+SCREENWIDTH = 512
+SCREENHEIGHT = 512
+cube_dim = pygame.image.load("data/square.png").get_rect()
+CUBE_WIDTH = cube_dim.width
+CUBE_HEIGHT = cube_dim.height
+
 class Board(pygame.sprite.Sprite):
     pass
 
@@ -18,6 +24,8 @@ class Snake(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("square.png ")
         self.rect = self.rect.move([1,1])
+        self.square_size_x = SCREENWIDTH/(CUBE_WIDTH*2)
+        self.square_size_y = SCREENHEIGHT/(CUBE_HEIGHT*2)
         # self.direction = None
         self.move_pos = [0,0]
 
@@ -39,13 +47,13 @@ class Snake(pygame.sprite.Sprite):
     def move_snake(self,direction=None):
         self.move_pos = [0,0]
         if direction == "left":
-            self.move_pos[0] -= 16
+            self.move_pos[0] -= self.square_size_x
         if direction == "right":
-            self.move_pos[0] += 16
+            self.move_pos[0] += self.square_size_x
         if direction == "up":
-            self.move_pos[1] -= 16
+            self.move_pos[1] -= self.square_size_y
         if direction == "down":
-            self.move_pos[1] += 16
+            self.move_pos[1] += self.square_size_y
             
     
 
