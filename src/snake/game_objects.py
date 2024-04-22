@@ -4,6 +4,7 @@ import math
 import os
 import getopt
 import pygame
+import numpy as np
 from resource_handling import load_image
 
 
@@ -12,9 +13,23 @@ SCREENHEIGHT = 512
 cube_dim = pygame.image.load("data/square.png").get_rect()
 CUBE_WIDTH = cube_dim.width
 CUBE_HEIGHT = cube_dim.height
+ORIGIN_X = 0
+ORIGIN_Y = 0
+DISPLAY = [SCREENWIDTH,SCREENHEIGHT]
 
 class Board(pygame.sprite.Sprite):
-    pass
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.board_cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2,endpoint=False)
+        self.board_rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2,endpoint=False)
+        self.peices_of_food = 0
+
+    def spawn_food(self):
+        """
+        method to spawn food on the board
+        """
+
+    
 
 class Snake(pygame.sprite.Sprite):
     def __init__(self):
@@ -48,6 +63,11 @@ class Snake(pygame.sprite.Sprite):
             self.move_pos[1] -= self.square_size_y
         if direction == "down":
             self.move_pos[1] += self.square_size_y
+    
+    def extend_snake(self):
+        """
+        method to extend the snake
+        """
 
 
 if __name__ == "__main__":
