@@ -59,6 +59,17 @@ def main():
     snake = Snake()
     snake_sprites = pygame.sprite.RenderPlain(snake)
 
+    #init board
+    board = Board()
+    board_sprites = pygame.sprite.RenderPlain(board)
+    # print(board.rect[0])
+    # print("hii",board.rect)
+    #blit food
+    # screen.blit(background,board.food_locs[0])
+    # screen.blit(background,board.food_locs[1])
+    
+    pygame.display.flip()
+
     #init clock 
     clock = pygame.time.Clock()
 
@@ -79,17 +90,16 @@ def main():
             elif event.type == KEYDOWN:
                 if event.key in [K_RIGHT, K_LEFT, K_UP, K_DOWN]:
                     snake.move_snake(pygame.key.name(event.key))
-            
-                
-              
-
-
+        print(board.food_locs)
         screen.blit(background,snake.rect,snake.rect)
+        screen.blit(background,board.rect)
         snake_sprites.update()
         snake_sprites.draw(screen)
+        board_sprites.update()
+        board_sprites.draw(screen)
         for i in range(cols_arr.shape[0]):
-                pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
-                pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
+                pygame.draw.line(screen, line_color, (board.board_cols_arr[i,0], board.board_cols_arr[i,1]), (board.board_cols_arr[i,2], board.board_cols_arr[i,3]))
+                pygame.draw.line(screen, line_color, (board.board_rows_arr[i,0],board.board_rows_arr[i,1]), (board.board_rows_arr[i,2], board.board_rows_arr[i,3]))
         pygame.display.flip()
 
 if __name__ == "__main__":

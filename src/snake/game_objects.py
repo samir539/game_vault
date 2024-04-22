@@ -20,14 +20,26 @@ DISPLAY = [SCREENWIDTH,SCREENHEIGHT]
 class Board(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
+        self.image, self.rect = load_image("square.png ")
         self.board_cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2,endpoint=False)
         self.board_rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2,endpoint=False)
         self.peices_of_food = 0
+        self.max_pieces = 3
+        self.rand_locs = [(np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT*2)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH*2)))  for x in range(3)]
+        self.food_locs = [(i*SCREENHEIGHT/(CUBE_HEIGHT*2),j*SCREENWIDTH/(CUBE_WIDTH*2)) for i,j in self.rand_locs]
+        self.rect = self.food_locs[0]
 
     def spawn_food(self):
         """
         method to spawn food on the board
         """
+        while self.peices_of_food < self.max_pieces:
+            pass
+
+            
+            #render 
+            pass
+
 
     
 
@@ -71,8 +83,11 @@ class Snake(pygame.sprite.Sprite):
 
 
 if __name__ == "__main__":
-    pass
-
+    board = Board()
+    print(SCREENWIDTH/(CUBE_WIDTH*2))
+    print(SCREENHEIGHT/(CUBE_HEIGHT*2))
+    print(board.rand_locs)
+    
 
 
 
