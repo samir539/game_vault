@@ -30,7 +30,7 @@ CUBE_WIDTH = cube_dim.width
 CUBE_HEIGHT = cube_dim.height
 cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2,endpoint=False)
 rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2,endpoint=False)
-print(cols_arr)
+
 
 
 
@@ -69,16 +69,21 @@ def main():
     while True:
         
         clock.tick(5)
+        if snake.lose == True:
+            print("you lost")
+            pygame.quit()
+            exit()
         for event in pygame.event.get():
             if event.type == QUIT:
                 return
             elif event.type == KEYDOWN:
                 if event.key in [K_RIGHT, K_LEFT, K_UP, K_DOWN]:
                     snake.move_snake(pygame.key.name(event.key))
-                    print(pygame.key.name(event.key))
+            
+                
+              
 
 
-        print("this are the coords of the snake head", snake.rect)
         screen.blit(background,snake.rect,snake.rect)
         snake_sprites.update()
         snake_sprites.draw(screen)

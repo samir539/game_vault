@@ -26,10 +26,15 @@ class Snake(pygame.sprite.Sprite):
         self.rect = self.rect.move([1,1])
         self.square_size_x = SCREENWIDTH/(CUBE_WIDTH*2)
         self.square_size_y = SCREENHEIGHT/(CUBE_HEIGHT*2)
+        screen = pygame.display.get_surface()
+        self.area = screen.get_rect()
         self.move_pos = [0,0]
+        self.lose = False
 
     def update(self):
         newpos = self.rect.move(self.move_pos)
+        if not self.area.contains(newpos):
+            self.lose = True
         self.rect = newpos
         pygame.event.pump()
 
