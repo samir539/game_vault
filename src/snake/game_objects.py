@@ -17,6 +17,7 @@ class Snake(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("square.png ")
+        self.rect = self.rect.move([1,1])
         # self.direction = None
         self.move_pos = [0,0]
 
@@ -29,12 +30,13 @@ class Snake(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.move_pos[0],self.move_pos[1] = round(self.move_pos[0],-1), round(self.move_pos[1],-1) 
+        # self.move_pos[0],self.move_pos[1] = round(self.move_pos[0],-1), round(self.move_pos[1],-1) 
         newpos = self.rect.move(self.move_pos)
+        # self.rect = self.rect.move([1,1])
         self.rect = newpos
         pygame.event.pump()
 
-    def move_snake(self,direction=None, state=False):
+    def move_snake(self,direction=None):
         self.move_pos = [0,0]
         if direction == "left":
             self.move_pos[0] -= 16

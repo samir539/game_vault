@@ -28,9 +28,9 @@ DISPLAY = [SCREENWIDTH,SCREENHEIGHT]
 cube_dim = pygame.image.load("data/square.png").get_rect()
 CUBE_WIDTH = cube_dim.width
 CUBE_HEIGHT = cube_dim.height
-cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2)
-rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2)
-
+cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2,endpoint=False)
+rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2,endpoint=False)
+print(cols_arr)
 
 
 
@@ -67,9 +67,7 @@ def main():
 
     #event loop
     while True:
-        for i in range(cols_arr.shape[0]):
-                pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
-                pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
+        
         clock.tick(5)
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -80,28 +78,13 @@ def main():
                     print(pygame.key.name(event.key))
 
 
-
-                # keydown = True
-                # if event.key == K_UP:
-                #     snake.move_snake("up") 
-                # if event.key == K_DOWN:
-                #     snake.move_snake("down") 
-                # if event.key == K_LEFT:
-                #     snake.move_snake("left") 
-                # if event.key == K_RIGHT:
-                #     snake.move_snake("right") 
-                #     print("hello world")
-            # elif event.type == KEYUP:
-            #     keydown = False
-            #     if event.key == K_UP or event.key == K_DOWN or event.key == K_LEFT or event.key == K_RIGHT:
-            #         snake.move_pos = [0,0]
-
-        
-    
-        
+        print("this are the coords of the snake head", snake.rect)
         screen.blit(background,snake.rect,snake.rect)
         snake_sprites.update()
         snake_sprites.draw(screen)
+        for i in range(cols_arr.shape[0]):
+                pygame.draw.line(screen, line_color, (cols_arr[i,0], cols_arr[i,1]), (cols_arr[i,2], cols_arr[i,3]))
+                pygame.draw.line(screen, line_color, (rows_arr[i,0],rows_arr[i,1]), (rows_arr[i,2], rows_arr[i,3]))
         pygame.display.flip()
 
 if __name__ == "__main__":
