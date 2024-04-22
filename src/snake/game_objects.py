@@ -26,21 +26,10 @@ class Snake(pygame.sprite.Sprite):
         self.rect = self.rect.move([1,1])
         self.square_size_x = SCREENWIDTH/(CUBE_WIDTH*2)
         self.square_size_y = SCREENHEIGHT/(CUBE_HEIGHT*2)
-        # self.direction = None
         self.move_pos = [0,0]
 
-    #class function
-    # def round_to_size(n,m):
-    #     return n + (m - n)%m
-    # #n = 13
-    # #m = 10 
-    
-
-
     def update(self):
-        # self.move_pos[0],self.move_pos[1] = round(self.move_pos[0],-1), round(self.move_pos[1],-1) 
         newpos = self.rect.move(self.move_pos)
-        # self.rect = self.rect.move([1,1])
         self.rect = newpos
         pygame.event.pump()
 
@@ -54,8 +43,6 @@ class Snake(pygame.sprite.Sprite):
             self.move_pos[1] -= self.square_size_y
         if direction == "down":
             self.move_pos[1] += self.square_size_y
-            
-    
 
 
 if __name__ == "__main__":
