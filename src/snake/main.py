@@ -13,7 +13,7 @@ from einops import rearrange
 from socket import *
 from pygame.locals import *
 import numpy as np
-from game_objects import Snake, Board
+from game_objects import Snake, Board, Food
 from resource_handling import load_image
 # except ImportError:
 #     print(f"could not load a module")
@@ -42,15 +42,12 @@ def main():
     background = background.convert()
     background.fill((0,0,0))
 
-    
-
     #blit background
     screen.blit(background,(0,0))
     pygame.display.flip()
 
     #grid lines
     line_color = (255, 0, 0)
-    
     
 
     #init snake
@@ -59,20 +56,15 @@ def main():
 
     #init board
     board = Board()
-    board_sprites = pygame.sprite.RenderPlain(board)
-    # print(board.rect[0])
-    # print("hii",board.rect)
-    #blit food
-    # screen.blit(background,board.food_locs[0])
-    # screen.blit(background,board.food_locs[1])
-    
-    pygame.display.flip()
+
+    #init food
+    food_group = pygame.sprite.Group()
+    for i in range(Food.max_pieces):
+        food = Food()
+        food_group.add(food)
 
     #init clock 
     clock = pygame.time.Clock()
-
-    #keydown 
-    keydown = False
 
     #event loop
     while True:
@@ -88,14 +80,16 @@ def main():
             elif event.type == KEYDOWN:
                 if event.key in [K_RIGHT, K_LEFT, K_UP, K_DOWN]:
                     snake.move_snake(pygame.key.name(event.key))
-                    
+
         #blits and updates      
         screen.blit(background,snake.rect,snake.rect)
-        screen.blit(background,board.rect)
+        # for i in range(len(board.food_img_list)):
+        #     screen.blit(board.food_img_list[i], board.food_locs[i])
+        food_group.update()
+        food_group.draw(screen)
         snake_sprites.update()
         snake_sprites.draw(screen)
-        board_sprites.update()
-        board_sprites.draw(screen)
+
         
         #render board grid
         for i,j in zip(range(board.board_cols_arr.shape[0]), range(board.board_rows_arr.shape[0])):
