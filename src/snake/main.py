@@ -2,22 +2,22 @@ VERSION = "0.1"
 #Implementation of pong (one player vs the computer)
 
 #load modules
-try: 
-    import sys
-    import random 
-    import math
-    import os
-    import getopt
-    import pygame
-    from einops import rearrange
-    from socket import *
-    from pygame.locals import *
-    import numpy as np
-    from game_objects import Snake, Board
-    from resource_handling import load_image
-except ImportError:
-    print(f"could not load a module")
-    sys.exit(2)
+# try: 
+import sys
+import random 
+import math
+import os
+import getopt
+import pygame
+from einops import rearrange
+from socket import *
+from pygame.locals import *
+import numpy as np
+from game_objects import Snake, Board
+from resource_handling import load_image
+# except ImportError:
+#     print(f"could not load a module")
+#     sys.exit(2)
 
 
 SCREENWIDTH = 512
@@ -28,8 +28,6 @@ DISPLAY = [SCREENWIDTH,SCREENHEIGHT]
 cube_dim = pygame.image.load("data/square.png").get_rect()
 CUBE_WIDTH = cube_dim.width
 CUBE_HEIGHT = cube_dim.height
-cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2,endpoint=False)
-rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2,endpoint=False)
 
 
 
@@ -90,16 +88,21 @@ def main():
             elif event.type == KEYDOWN:
                 if event.key in [K_RIGHT, K_LEFT, K_UP, K_DOWN]:
                     snake.move_snake(pygame.key.name(event.key))
-        print(board.food_locs)
+                    
+        #blits and updates      
         screen.blit(background,snake.rect,snake.rect)
         screen.blit(background,board.rect)
         snake_sprites.update()
         snake_sprites.draw(screen)
         board_sprites.update()
         board_sprites.draw(screen)
-        for i in range(cols_arr.shape[0]):
+        
+        #render board grid
+        for i,j in zip(range(board.board_cols_arr.shape[0]), range(board.board_rows_arr.shape[0])):
                 pygame.draw.line(screen, line_color, (board.board_cols_arr[i,0], board.board_cols_arr[i,1]), (board.board_cols_arr[i,2], board.board_cols_arr[i,3]))
-                pygame.draw.line(screen, line_color, (board.board_rows_arr[i,0],board.board_rows_arr[i,1]), (board.board_rows_arr[i,2], board.board_rows_arr[i,3]))
+                pygame.draw.line(screen, line_color, (board.board_rows_arr[j,0],board.board_rows_arr[j,1]), (board.board_rows_arr[j,2], board.board_rows_arr[j,3]))
+
+                
         pygame.display.flip()
 
 if __name__ == "__main__":
