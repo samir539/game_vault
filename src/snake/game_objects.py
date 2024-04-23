@@ -31,12 +31,12 @@ class Food(pygame.sprite.Sprite):
     
     #class variable
     peices_of_food = 0
-    max_pieces = 4
+    max_pieces = 3
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image, _ = load_image("apple_food.png")
-        self.rand_loc = (np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT*2)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH*2)))
+        self.rand_loc = (np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH)))
         self.rect = (self.rand_loc[0]*SCREENHEIGHT/(CUBE_HEIGHT*2),self.rand_loc[1]*SCREENWIDTH/(CUBE_WIDTH*2))
         
 
@@ -52,7 +52,7 @@ class Snake(pygame.sprite.Sprite):
         """
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("square.png ")
-        self.rect = self.rect.move([1,1])
+        self.rect = self.rect.move([SCREENHEIGHT/2,SCREENWIDTH/2])
         self.square_size_x = SCREENWIDTH/(CUBE_WIDTH*2)
         self.square_size_y = SCREENHEIGHT/(CUBE_HEIGHT*2)
         screen = pygame.display.get_surface()
