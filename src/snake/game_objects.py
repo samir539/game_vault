@@ -19,37 +19,27 @@ DISPLAY = [SCREENWIDTH,SCREENHEIGHT]
 
 
 
-class Board(pygame.sprite.Sprite):
+class Board():
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image("apple_food.png ")
         self.board_cols_arr = np.linspace((ORIGIN_Y,ORIGIN_Y,ORIGIN_Y,SCREENHEIGHT),(SCREENWIDTH,ORIGIN_Y,SCREENWIDTH,SCREENHEIGHT),CUBE_WIDTH*2,endpoint=False)
         self.board_rows_arr = np.linspace((ORIGIN_X,ORIGIN_X,SCREENHEIGHT,ORIGIN_X),(ORIGIN_X,SCREENHEIGHT,SCREENHEIGHT,SCREENWIDTH),CUBE_HEIGHT*2,endpoint=False)
-        self.peices_of_food = 0
-        self.max_pieces = 4
-        self.food_img_list = [load_image("apple_food.png")[0] for x in range(self.max_pieces)]
-        self.rand_locs = [(np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT*2)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH*2)))  for x in range(self.max_pieces)]
-        self.food_locs = [(i*SCREENHEIGHT/(CUBE_HEIGHT*2),j*SCREENWIDTH/(CUBE_WIDTH*2)) for i,j in self.rand_locs]
-
-
-    def spawn_food(self):
-        """
-        method to spawn food on the board
-        """
-        while self.peices_of_food < self.max_pieces:
-            pass
-
-            
-            #render 
-            pass
+        
+        
+        
         
 class Food(pygame.sprite.Sprite):
     
+    #class variable
+    peices_of_food = 0
+    max_pieces = 4
+    
     def __init__(self):
-        self.image_list = []
-        
+        pygame.sprite.Sprite.__init__(self)
         self.image, _ = load_image("apple_food.png")
-        self.x = 
+        self.rand_loc = (np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT*2)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH*2)))
+        self.rect = (self.rand_loc[0]*SCREENHEIGHT/(CUBE_HEIGHT*2),self.rand_loc[1]*SCREENWIDTH/(CUBE_WIDTH*2))
+        
+
         
 
 
