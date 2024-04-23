@@ -1,5 +1,5 @@
 VERSION = "0.1"
-#Implementation of pong (one player vs the computer)
+#Implementation of snake (one player vs the computer)
 
 #load modules
 # try: 
