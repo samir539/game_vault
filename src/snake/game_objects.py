@@ -45,14 +45,16 @@ class Food(pygame.sprite.Sprite):
 
     
 
-class Snake(pygame.sprite.Sprite):
-    def __init__(self):
+class SnakeSegment(pygame.sprite.Sprite):
+    
+    
+    def __init__(self,start_point_x, start_point_y):
         """
         init snake on screen
         """
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("square.png ")
-        self.rect = self.rect.move([SCREENHEIGHT/2,SCREENWIDTH/2])
+        self.rect = self.rect.move([start_point_x,start_point_y]) #start at center
         self.square_size_x = SCREENWIDTH/(CUBE_WIDTH*2)
         self.square_size_y = SCREENHEIGHT/(CUBE_HEIGHT*2)
         screen = pygame.display.get_surface()
@@ -77,11 +79,50 @@ class Snake(pygame.sprite.Sprite):
             self.move_pos[1] -= self.square_size_y
         if direction == "down":
             self.move_pos[1] += self.square_size_y
+
+        
+class SnakeFull():
     
-    def extend_snake(self):
+    def __init__(self, snake_segment_sprite_group,start_len=3):
         """
-        method to extend the snake
+        method to init full snake where the snake is represented by a list of snake segment sprite objects
+        :param snake_segment_head: instance of the SnakeSegment object that serves as the head of the snake
         """
+        self.square_size_x = SCREENWIDTH/(CUBE_WIDTH*2)
+        self.square_size_y = SCREENHEIGHT/(CUBE_HEIGHT*2)
+        self.direction = "right"
+        self.sprite_group  = snake_segment_sprite_group
+        self.head = list(self.sprite_group)[0]
+        print("HELLO",list(snake_segment_sprite_group))
+        self.snake_full_list = []
+        self.snake_full_list.append(self.head)
+        self.extend(start_len)
+        
+    def ambulate(self):
+        pass
+    
+    def growth_loc(self,direction,x,y):
+        if direction == "right":
+            x,y = x - self.square_size_x, y
+        if direction == "left":
+            x,y = x + self.square_size_x, y
+        if direction == "up":
+            x,y = x , y - self.square_size_y
+        if direction == "down":
+            x,y = x, y + self.square_size_y
+        return x,y 
+             
+    
+    def extend(self,extention_num):
+        for i in range(extention_num):
+            x,y = self.snake_full_list[i].rect.left, self.snake_full_list[i].rect.top
+            x,y = self.growth_loc(self.direction,x,y)
+            ith_seg = SnakeSegment(x,y)
+            self.sprite_group.add(ith_seg)
+            self.snake_full_list.append(SnakeSegment(x,y))
+    
+    def change_dir(self):
+        pass
 
 
 if __name__ == "__main__":
