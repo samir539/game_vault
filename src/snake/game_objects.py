@@ -35,9 +35,11 @@ class Food(pygame.sprite.Sprite):
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image, _ = load_image("apple_food.png")
+        self.image, self.rect = load_image("apple_food.png")
         self.rand_loc = (np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH)))
-        self.rect = (self.rand_loc[0]*SCREENHEIGHT/(CUBE_HEIGHT*2),self.rand_loc[1]*SCREENWIDTH/(CUBE_WIDTH*2))
+        self.rect = self.rect.move([self.rand_loc[0]*SCREENHEIGHT/(CUBE_HEIGHT*2),self.rand_loc[1]*SCREENWIDTH/(CUBE_WIDTH*2)])
+        
+
         
         
         
@@ -79,7 +81,7 @@ class SnakeSegment(pygame.sprite.Sprite):
         
 class SnakeFull():
     
-    def __init__(self, snake_segment_sprite_group,start_len=7):
+    def __init__(self, snake_segment_sprite_group,start_len=3):
         """
         method to init full snake where the snake is represented by a list of snake segment sprite objects
         :param snake_segment_head: instance of the SnakeSegment object that serves as the head of the snake
