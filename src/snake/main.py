@@ -55,7 +55,7 @@ def main():
     snake_sprites = pygame.sprite.Group(snake)
     
     snake_full = SnakeFull(snake_sprites)
-    # print("WAZ",snake_full.snake_full_list)
+
 
     #init board
     board = Board()
@@ -96,30 +96,18 @@ def main():
                     else:
                         list(snake_full.sprite_group)[0].move_snake(pygame.key.name(event.key))
                         list(snake_full.sprite_group)[0].direction = pygame.key.name(event.key)
-                    # print(list((snake_full.sprite_group))[0].rect)
-                    # snake_full.direction = pygame.key.name(event.key)
+
                     
                     
 
         #blits and updates      
         screen.blit(background,snake.rect,snake.rect)
-        # print(list((snake_full.sprite_group))[0].rect)
         snake_full.ambulate()
-        # print(list((snake_full.sprite_group))[1].rect)
-        # snake_full.snake_full_list[0].draw()
-        # for i in range(len(board.food_img_list)):
-        #     screen.blit(board.food_img_list[i], board.food_locs[i])
-        # snake_full.ambulate()
         food_group.update()
         food_group.draw(screen)
         snake_sprites.update()
         snake_sprites.draw(screen)
-        
-        
-        
-        
-
-        
+            
         #render board grid
         for i,j in zip(range(board.board_cols_arr.shape[0]), range(board.board_rows_arr.shape[0])):
                 pygame.draw.line(screen, line_color, (board.board_cols_arr[i,0], board.board_cols_arr[i,1]), (board.board_cols_arr[i,2], board.board_cols_arr[i,3]))
