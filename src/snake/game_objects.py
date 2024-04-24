@@ -39,14 +39,9 @@ class Food(pygame.sprite.Sprite):
         self.rand_loc = (np.random.randint(SCREENHEIGHT/(CUBE_HEIGHT)),np.random.randint(SCREENWIDTH/(CUBE_WIDTH)))
         self.rect = (self.rand_loc[0]*SCREENHEIGHT/(CUBE_HEIGHT*2),self.rand_loc[1]*SCREENWIDTH/(CUBE_WIDTH*2))
         
-
         
-
-
-    
-
+        
 class SnakeSegment(pygame.sprite.Sprite):
-    
     
     def __init__(self,start_point_x, start_point_y):
         """
@@ -100,18 +95,8 @@ class SnakeFull():
         
     def ambulate(self):
         for i in range(len(self.snake_full_list)-1,0,-1):
-        # for i in range(1,len(self.snake_full_list)):
-            # print("HELLO",self.snake_full_list[i-1].rect.left, self.snake_full_list[i-1].rect.top)
-            # print("HELLO2",self.snake_full_list[i].rect.left, self.snake_full_list[i].rect.top)
-            # print("HELLO",self.snake_full_list[i])
-            # print("this is loc of head",self.snake_full_list[0].rect)
-            # print("this is loc of head-1",self.snake_full_list[1].rect)
             self.snake_full_list[i].rect.top, self.snake_full_list[i].rect.left =  self.snake_full_list[i-1].rect.top, self.snake_full_list[i-1].rect.left
-            # x,y = self.growth_loc(self.direction,self.snake_full_list[0].rect.top, self.snake_full_list[0].rect.left)
-            # print("the x,y vals are", x,y)
-            # print(f"this is sprite {i}",self.snake_full_list[i].rect)
-            # self.snake_full_list[i].move_snake("up") 
-            
+
     
     def growth_loc(self,direction,x,y):
         if direction == "right":
@@ -123,7 +108,6 @@ class SnakeFull():
         if direction == "down":
             x,y = x, y + self.square_size_y
         return x,y 
-             
     
     def extend(self,extention_num):
         for i in range(extention_num):
@@ -132,9 +116,6 @@ class SnakeFull():
             ith_seg = SnakeSegment(x,y)
             self.sprite_group.add(ith_seg)
             self.snake_full_list.append(ith_seg)
-    
-    def change_dir(self):
-        pass
 
 
 if __name__ == "__main__":
