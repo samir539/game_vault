@@ -102,34 +102,14 @@ def main():
         #blits and updates      
         screen.blit(background,snake.rect,snake.rect)
         snake_full.ambulate()
-        #if snake head collides with a sprite in food group
-        # extend snake
-        # spawn new food
-        # remove old food
-        
-        # if pygame.Rect.colliderect(list(snake_full.sprite_group)[0].rect, food_group):
-        #     print("HELLLLOOO")
-        
-        # if pygame.sprite.spritecollideany(list(snake_full.sprite_group)[0], food_group):
-        #     print("helllllllooooooo")
-        
         if pygame.sprite.groupcollide(snake_full.sprite_group, food_group,dokilla=False,dokillb=True):
             snake_full.extend(1)
             if len(food_group) < Food.max_pieces:
                 food = Food()
                 food_group.add(food)
-        # print( type(list(snake_full.sprite_group)[0].rect))
-        # if pygame.Rect.collidepoint(list(snake_full.sprite_group)[0].rect.center,snake_full.sprite_group ):
-        #     snake.lose = True
-        # if pygame.sprite.spritecollideany(list(snake_full.sprite_group)[0], snake_full.sprite_group):
-        #     snake.lose = True
         if pygame.sprite.spritecollideany(snake_full.head,snake_full.snake_full_list[2:]):
             snake.lose = True
-            
-        # print("HELLO",type(list(snake_full.sprite_group)[0].rect))
-        # print("HELLO",type(list(food_group)[1].rect))
-        # if list(snake_full.sprite_group)[0].rect.colliderect(food_group):
-        #     print("hello world")
+
         food_group.update()
         food_group.draw(screen)
         snake_sprites.update()
