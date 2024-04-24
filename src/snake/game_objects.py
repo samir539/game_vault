@@ -61,6 +61,7 @@ class SnakeSegment(pygame.sprite.Sprite):
         self.area = screen.get_rect()
         self.move_pos = [0,0]
         self.lose = False
+        self.direction = "right"
 
     def update(self):
         newpos = self.rect.move(self.move_pos)
