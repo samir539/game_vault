@@ -93,13 +93,20 @@ class SnakeFull():
         self.direction = "right"
         self.sprite_group  = snake_segment_sprite_group
         self.head = list(self.sprite_group)[0]
-        print("HELLO",list(snake_segment_sprite_group))
         self.snake_full_list = []
         self.snake_full_list.append(self.head)
         self.extend(start_len)
         
     def ambulate(self):
-        pass
+        for i in range(len(self.snake_full_list)-1,0,-1):
+            # print("HELLO",self.snake_full_list[i-1].rect.left, self.snake_full_list[i-1].rect.top)
+            # print("HELLO2",self.snake_full_list[i].rect.left, self.snake_full_list[i].rect.top)
+            # print("HELLO",self.snake_full_list[i])
+            print("this is loc of head",self.snake_full_list[0].rect)
+            print("this is loc of head-1",self.snake_full_list[1].rect)
+            self.snake_full_list[i].rect.top, self.snake_full_list[i].rect.left =  self.snake_full_list[i-1].rect.top, self.snake_full_list[i-1].rect.left
+            # self.snake_full_list[i].rect.move([self.snake_full_list[i-1].rect.top, self.snake_full_list[i-1].rect.left]) 
+            
     
     def growth_loc(self,direction,x,y):
         if direction == "right":
@@ -119,7 +126,7 @@ class SnakeFull():
             x,y = self.growth_loc(self.direction,x,y)
             ith_seg = SnakeSegment(x,y)
             self.sprite_group.add(ith_seg)
-            self.snake_full_list.append(SnakeSegment(x,y))
+            self.snake_full_list.append(ith_seg)
     
     def change_dir(self):
         pass
