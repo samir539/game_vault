@@ -83,7 +83,7 @@ class SnakeSegment(pygame.sprite.Sprite):
         
 class SnakeFull():
     
-    def __init__(self, snake_segment_sprite_group,start_len=3):
+    def __init__(self, snake_segment_sprite_group,start_len=7):
         """
         method to init full snake where the snake is represented by a list of snake segment sprite objects
         :param snake_segment_head: instance of the SnakeSegment object that serves as the head of the snake
@@ -99,13 +99,17 @@ class SnakeFull():
         
     def ambulate(self):
         for i in range(len(self.snake_full_list)-1,0,-1):
+        # for i in range(1,len(self.snake_full_list)):
             # print("HELLO",self.snake_full_list[i-1].rect.left, self.snake_full_list[i-1].rect.top)
             # print("HELLO2",self.snake_full_list[i].rect.left, self.snake_full_list[i].rect.top)
             # print("HELLO",self.snake_full_list[i])
-            print("this is loc of head",self.snake_full_list[0].rect)
-            print("this is loc of head-1",self.snake_full_list[1].rect)
+            # print("this is loc of head",self.snake_full_list[0].rect)
+            # print("this is loc of head-1",self.snake_full_list[1].rect)
             self.snake_full_list[i].rect.top, self.snake_full_list[i].rect.left =  self.snake_full_list[i-1].rect.top, self.snake_full_list[i-1].rect.left
-            # self.snake_full_list[i].rect.move([self.snake_full_list[i-1].rect.top, self.snake_full_list[i-1].rect.left]) 
+            # x,y = self.growth_loc(self.direction,self.snake_full_list[0].rect.top, self.snake_full_list[0].rect.left)
+            # print("the x,y vals are", x,y)
+            # print(f"this is sprite {i}",self.snake_full_list[i].rect)
+            # self.snake_full_list[i].move_snake("up") 
             
     
     def growth_loc(self,direction,x,y):
