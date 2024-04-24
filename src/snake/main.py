@@ -13,7 +13,7 @@ from einops import rearrange
 from socket import *
 from pygame.locals import *
 import numpy as np
-from game_objects import Snake, Board, Food
+from game_objects import SnakeSegment, SnakeFull, Board, Food
 from resource_handling import load_image
 # except ImportError:
 #     print(f"could not load a module")
@@ -50,9 +50,12 @@ def main():
     line_color = (255, 0, 0)
     
 
-    #init snake
-    snake = Snake()
-    snake_sprites = pygame.sprite.RenderPlain(snake)
+    #init snake_segment and snake full
+    snake = SnakeSegment(SCREENHEIGHT/2, SCREENWIDTH/2)
+    snake_sprites = pygame.sprite.Group(snake)
+    
+    snake_full = SnakeFull(snake_sprites)
+    # print("WAZ",snake_full.snake_full_list)
 
     #init board
     board = Board()
@@ -67,11 +70,14 @@ def main():
     clock = pygame.time.Clock()
 
     #event loop
+    list(snake_full.sprite_group)[0].move_snake("right")
     while True:
-        
+        screen.fill(0)
         clock.tick(5)
+        
         if snake.lose == True:
             print("you lost")
+            print(snake_full.snake_full_list)
             pygame.quit()
             exit()
         for event in pygame.event.get():
@@ -79,16 +85,39 @@ def main():
                 return
             elif event.type == KEYDOWN:
                 if event.key in [K_RIGHT, K_LEFT, K_UP, K_DOWN]:
-                    snake.move_snake(pygame.key.name(event.key))
+                    if event.key == K_RIGHT and list(snake_full.sprite_group)[0].direction == "left":
+                        pass
+                    elif event.key == K_LEFT and list(snake_full.sprite_group)[0].direction == "right":
+                        pass
+                    elif event.key == K_UP and list(snake_full.sprite_group)[0].direction == "down":
+                        pass
+                    elif event.key == K_DOWN and list(snake_full.sprite_group)[0].direction == "up":
+                        pass
+                    else:
+                        list(snake_full.sprite_group)[0].move_snake(pygame.key.name(event.key))
+                        list(snake_full.sprite_group)[0].direction = pygame.key.name(event.key)
+                    # print(list((snake_full.sprite_group))[0].rect)
+                    # snake_full.direction = pygame.key.name(event.key)
+                    
+                    
 
         #blits and updates      
         screen.blit(background,snake.rect,snake.rect)
+        # print(list((snake_full.sprite_group))[0].rect)
+        snake_full.ambulate()
+        # print(list((snake_full.sprite_group))[1].rect)
+        # snake_full.snake_full_list[0].draw()
         # for i in range(len(board.food_img_list)):
         #     screen.blit(board.food_img_list[i], board.food_locs[i])
+        # snake_full.ambulate()
         food_group.update()
         food_group.draw(screen)
         snake_sprites.update()
         snake_sprites.draw(screen)
+        
+        
+        
+        
 
         
         #render board grid
@@ -96,9 +125,10 @@ def main():
                 pygame.draw.line(screen, line_color, (board.board_cols_arr[i,0], board.board_cols_arr[i,1]), (board.board_cols_arr[i,2], board.board_cols_arr[i,3]))
                 pygame.draw.line(screen, line_color, (board.board_rows_arr[j,0],board.board_rows_arr[j,1]), (board.board_rows_arr[j,2], board.board_rows_arr[j,3]))
 
-                
+        
         pygame.display.flip()
 
 if __name__ == "__main__":
     main()
+    
     
