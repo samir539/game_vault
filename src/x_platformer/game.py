@@ -50,6 +50,7 @@ class Game():
         
         #add main player
         self.player_1 = physicalEntity(self, [50,50])
+        self.player_move_unit = 10
         
         
                 
@@ -59,39 +60,36 @@ class Game():
         
         
         movement = [0,0]
+        
         while True:
             self.screen.fill((32,178,170))
             self.clock.tick(FPS)
             
-            
-        
-
+    
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
                 if event.type == pygame.KEYDOWN:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
                         if event.key == pygame.K_w:
-                            movement = [0,-1]
+                            movement = [0,-self.player_move_unit]
                         if event.key == pygame.K_s:
-                            movement = [0,1]
+                            movement = [0,self.player_move_unit]
                         if event.key == pygame.K_a:
-                            movement = [-1,0]
+                            movement = [-self.player_move_unit,0]
                         if event.key == pygame.K_d:
-                            movement = [1,0]
+                            movement = [self.player_move_unit,0]
             
-                # if event.type == pygame.KEYUP:
-                #     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
-                #         if event.key == pygame.K_w:
-                #             pass
-                #         if event.key == pygame.K_s:
-                #             pass
-                #         if event.key == pygame.K_a:
-                #             pass
-                #         if event.key == pygame.K_d:
-                #             pass
+                if event.type == pygame.KEYUP:
+                    if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
+                        movement = [0,0]
+            # movement = movement*50
+            # movement = [2*x for x in movement]
+            
+            print(movement)
             self.player_1.update(movement)
             self.player_1.render(self.screen)
+        
             
             
                
