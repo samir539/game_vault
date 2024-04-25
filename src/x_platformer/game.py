@@ -10,12 +10,13 @@ from einops import rearrange
 from socket import *
 from pygame.locals import *
 import numpy as np
-from resource_handling.image_load import load_image 
+from resource_handling.image_load import load_image
+from game_objects.entities import physicalEntity
 
 
 SCREENWIDTH = 840
 SCREENHEIGHT = 520
-FPS = 60
+FPS = 30
 DISPLAY =  [SCREENWIDTH, SCREENHEIGHT]
 
 
@@ -33,37 +34,65 @@ class Game():
         self.screen.blit(self.background,(0,0))
         pygame.display.flip()
         
+        
+    
         #load cloud
-        self.cloud,_ = load_image("images/clouds/cloud_1.png")
-        self.cloud_pos = [50,50]
-        self.cloud_move = [False,False]
+        # self.cloud,_ = load_image("images/entities/player/idle/00.png")
+        # self.cloud_pos = [50,50]
+        # self.cloud_move = [False,False]
+        # self.cloud.set_colorkey((0,0,0))
+        
+        
+        #assets
+        self.player_img, _ = load_image("images/entities/player/idle/00.png")
+        self.assets = {"player": self.player_img }
+        
+        
+        #add main player
+        self.player_1 = physicalEntity(self, [50,50])
+        
+        
                 
     
     def run_game(self):
         """method to run the game"""
+        
+        
+        movement = [0,0]
         while True:
+            self.screen.fill((32,178,170))
             self.clock.tick(FPS)
-            print("this is cloud move bool",self.cloud_move)
-            self.cloud_pos[1] += (self.cloud_move[1] - self.cloud_move[0])*5
-            self.screen.blit(self.cloud,self.cloud_pos) 
             
+            
+        
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
                 if event.type == pygame.KEYDOWN:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
                         if event.key == pygame.K_w:
-                            self.cloud_move[0] = True
+                            movement = [0,-1]
                         if event.key == pygame.K_s:
-                            self.cloud_move[1] = True
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_w:
-                        print("THIS HAPPENED")
-                        self.cloud_move[0] = False
-                    if event.key == pygame.K_s:
-                        self.cloud_move[1] = False
-                
-        
+                            movement = [0,1]
+                        if event.key == pygame.K_a:
+                            movement = [-1,0]
+                        if event.key == pygame.K_d:
+                            movement = [1,0]
+            
+                # if event.type == pygame.KEYUP:
+                #     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
+                #         if event.key == pygame.K_w:
+                #             pass
+                #         if event.key == pygame.K_s:
+                #             pass
+                #         if event.key == pygame.K_a:
+                #             pass
+                #         if event.key == pygame.K_d:
+                #             pass
+            self.player_1.update(movement)
+            self.player_1.render(self.screen)
+            
             
                
             pygame.display.flip()
