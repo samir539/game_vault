@@ -27,6 +27,9 @@ def load_image(image):
     return image, image.get_rect()
 
 
+    
+
+
 
 if __name__ == "__main__":
     pass

@@ -15,7 +15,7 @@ class physicalEntity():
     def __init__(self,game,pos):
         self.game = game
         self.pos = list(pos)
-        self.velocity = [0,10]        
+        self.velocity = [0,0]        
     
     def update(self,movement=[0,0]):
         self.moved_pos = [movement[0] + self.velocity[0], movement[1] + self.velocity[1]]
