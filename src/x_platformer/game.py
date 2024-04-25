@@ -34,19 +34,11 @@ class Game():
         self.screen.blit(self.background,(0,0))
         pygame.display.flip()
         
-        
     
-        #load cloud
-        # self.cloud,_ = load_image("images/entities/player/idle/00.png")
-        # self.cloud_pos = [50,50]
-        # self.cloud_move = [False,False]
-        # self.cloud.set_colorkey((0,0,0))
-        
-        
         #assets
         self.player_img, _ = load_image("images/entities/player/idle/00.png")
         self.assets = {"player": self.player_img }
-        
+        #self.assets = {"player": playerim, "tile_type": {grass: grass_variants, stone: stone_variants}}
         
         #add main player
         self.player_1 = physicalEntity(self, [50,50])
@@ -54,7 +46,7 @@ class Game():
         
         
                 
-    
+    1
     def run_game(self):
         """method to run the game"""
         
@@ -83,10 +75,8 @@ class Game():
                 if event.type == pygame.KEYUP:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
                         movement = [0,0]
-            # movement = movement*50
-            # movement = [2*x for x in movement]
-            
-            print(movement)
+                        
+                        
             self.player_1.update(movement)
             self.player_1.render(self.screen)
         
