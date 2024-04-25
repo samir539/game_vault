@@ -15,7 +15,7 @@ class physicalEntity():
     def __init__(self,game,pos):
         self.game = game
         self.pos = list(pos)
-        self.velocity = [1,0]        
+        self.velocity = [0,10]        
     
     def update(self,movement=[0,0]):
         self.moved_pos = [movement[0] + self.velocity[0], movement[1] + self.velocity[1]]
@@ -23,8 +23,6 @@ class physicalEntity():
         self.pos[0] += self.moved_pos[0]
         self.pos[1] += self.moved_pos[1]
         
-        
-    
     def render(self,surface):
         surface.blit(self.game.assets["player"],self.pos)
     
