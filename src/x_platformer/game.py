@@ -10,12 +10,13 @@ from einops import rearrange
 from socket import *
 from pygame.locals import *
 import numpy as np
-from resource_handling.image_load import load_image
+from resource_handling.image_load import load_image, load_multiple_images
 from game_objects.entities import physicalEntity
+from game_objects.tile_map import TileMap
 
 
 SCREENWIDTH = 840
-SCREENHEIGHT = 520
+SCREENHEIGHT = 512
 FPS = 30
 DISPLAY =  [SCREENWIDTH, SCREENHEIGHT]
 
@@ -36,14 +37,19 @@ class Game():
         
     
         #assets
-        self.player_img, _ = load_image("images/entities/player/idle/00.png")
-        self.assets = {"player": self.player_img }
-        #self.assets = {"player": playerim, "tile_type": {grass: grass_variants, stone: stone_variants}}
-        
+        self.assets = {}
+        self.player_img, _ = load_image("data/images/entities/player/idle/00.png")
+        self.assets["player"] = self.player_img
+        self.assets["grass_tiles"] = load_multiple_images("data/images/tiles/grass")
+        self.assets["stone_tiles"] = load_multiple_images("data/images/tiles/grass")
+        print(self.assets)
         #add main player
         self.player_1 = physicalEntity(self, [50,50])
         self.player_move_unit = 10
         
+        #tile object
+        self.tile_path = TileMap(self,tile_size=16)
+
         
                 
     1
@@ -79,7 +85,7 @@ class Game():
                         
             self.player_1.update(movement)
             self.player_1.render(self.screen)
-        
+            self.tile_path.render_tiles(self.screen)
             
             
                
