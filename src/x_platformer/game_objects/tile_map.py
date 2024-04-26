@@ -13,22 +13,20 @@ import numpy as np
 class TileMap():
     def __init__(self,game,tile_size):
         self.game = game
+        self.tile_size = tile_size
         self.tilemap = {}
         self.offtile = []
         
-        for i in range(3):
-            self.tilemap[f"{i},5"] = {"tile_type":"grass", "tile_edition":3,"pos":[i,5]}
+        for i in range(1,10):
+            self.tilemap[f"{i},10"] = {"tile_type":"grass_tiles", "tile_edition":2,"pos":[i,15]}
     
     def render_tiles(self,surface):
         for i in self.tilemap.values():
-            print(i)
-        #image comes from self.game.assets()
-        #sureface.blit(image, pos)
-        # surface.blit(se)
+            tile = self.game.assets[i["tile_type"]][i["tile_edition"]]
+            surface.blit(tile, (i["pos"][0]*self.tile_size, i["pos"][1]*self.tile_size))
         
-        
-        
-# print(TileMap(5,5).tilemap)
-TileMap(5,5).render_tiles(6) 
+    
+if __name__ == "__main__":
+    pass
         
         
