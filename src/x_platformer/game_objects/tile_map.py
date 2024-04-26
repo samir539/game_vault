@@ -23,7 +23,9 @@ class TileMap():
     def render_tiles(self,surface):
         for i in self.tilemap.values():
             tile = self.game.assets[i["tile_type"]][i["tile_edition"]]
-            surface.blit(tile, (i["pos"][0]*self.tile_size, i["pos"][1]*self.tile_size))
+            pos_x = i["pos"][0]*self.tile_size
+            pos_y = i["pos"][1]*self.tile_size
+            surface.blit(tile, (pos_x,pos_y))
         
     
 if __name__ == "__main__":
