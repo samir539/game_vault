@@ -42,10 +42,10 @@ class Game():
         self.assets["player"] = self.player_img
         self.assets["grass_tiles"] = load_multiple_images("data/images/tiles/grass")
         self.assets["stone_tiles"] = load_multiple_images("data/images/tiles/stone")
-        print(self.assets)
+        
         #add main player
         self.player_1 = physicalEntity(self, [50,50])
-        self.player_move_unit = 10
+        self.player_move_unit = 1
         
         #tile object
         self.tile_path = TileMap(self,tile_size=16)
@@ -80,7 +80,7 @@ class Game():
             
                 if event.type == pygame.KEYUP:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
-                        movement = [0,0]
+                        movement = [-5,-5]
                         
                         
             self.player_1.update(movement)
