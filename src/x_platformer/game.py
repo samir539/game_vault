@@ -41,7 +41,7 @@ class Game():
         self.player_img, _ = load_image("data/images/entities/player/idle/00.png")
         self.assets["player"] = self.player_img
         self.assets["grass_tiles"] = load_multiple_images("data/images/tiles/grass")
-        self.assets["stone_tiles"] = load_multiple_images("data/images/tiles/grass")
+        self.assets["stone_tiles"] = load_multiple_images("data/images/tiles/stone")
         print(self.assets)
         #add main player
         self.player_1 = physicalEntity(self, [50,50])
