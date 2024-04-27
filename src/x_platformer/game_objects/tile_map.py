@@ -34,10 +34,25 @@ class TileMap():
             surface.blit(tile, (pos_x,pos_y))
             
             
+            
     def tile_collision_check(self):
+        self.game.player_1.collisions = dict.fromkeys(self.game.player_1.collisions, False)
         player_pos = self.game.player_1.pos
         player_tile =[int(x/self.tile_size) for x in player_pos]
         surrounding_tiles = [[player_tile[0] + x[0] ,player_tile[1] + x[1]] for x in self.surr_dir]
+        #loop through surrounding tiles get the rect and check for collision with player_rect
+        for tile in surrounding_tiles:
+            tile_str = ",".join(map(str, tile))
+            if tile_str in self.tilemap.keys():
+                tile_information = self.tilemap[tile_str]
+                tile_img = self.game.assets[tile_information["tile_type"]][tile_information["tile_edition"]]
+                dir = check_side(self.game.player_1.entity_rect,tile_img.get_rect())
+                self.game.player_1.collisions[dir] = True
+            else:
+                pass
+            
+
+
         
         
         
