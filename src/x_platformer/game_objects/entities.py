@@ -19,38 +19,36 @@ class physicalEntity():
         self.acceleration_y = 0.7   #gravity
         self.acceleration_x = 0.7
         self.max_veloctiy_x, self.max_veloctiy_y = 4,4
+        self.collisions = {"top":False,"bottom":False,"right":False, "left":False}
+        
         
         
     def update(self,movement=[0,0]):
-        #x direction
-        # print("this is movement",movement)
-        if movement[0] == 1:
+        
+        if movement[0] == 1:    #x direction (right)
             self.velocity[0] = min(self.max_veloctiy_x, self.velocity[0] + self.acceleration_x)
-        elif movement[0] == -1:
+        elif movement[0] == -1: #x direction (left)
             self.velocity[0] = max(-self.max_veloctiy_y, (self.velocity[0] - self.acceleration_x))
 
         elif movement == [-5,-5]:
             self.velocity[0] = 0
-        # #y direction
-        # elif movement[1] == 1:
-        self.velocity[1] = min(self.max_veloctiy_y, self.velocity[1] + self.acceleration_y)
         
+        #always have gravity acting
+        if not self.collisions["top"]:
+            self.velocity[1] = min(self.max_veloctiy_y, self.velocity[1] + self.acceleration_y)
+        elif self.collisions["top"]:
+            self.velocity[1] = 0
+            
+            
         
-          
-        # self.velocity[1] = min(self.max_veloctiy_y, self.velocity[1] + self.acceleration_y)
         print("this is the velicty",self.velocity)
         
         self.pos[0] += self.velocity[0]
         self.pos[1] += self.velocity[1]            
-            
-        # self.velocity = self.velocity + self.acceleration
-        # self.moved_pos = min(self.max_veloctiy, )
-        # self.moved_pos = [movement[0] + self.velocity[0], movement[1] + self.velocity[1]]
-        # # print("this is moved pos", self.moved_pos)
-        # self.pos[0] += self.moved_pos[0]
-        # self.pos[1] += self.moved_pos[1]
+        
         
     def render(self,surface):
+        self.entity_rect = self.game.assets["player"].get_rect()
         surface.blit(self.game.assets["player"],self.pos)
     
     
