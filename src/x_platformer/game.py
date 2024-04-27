@@ -51,8 +51,7 @@ class Game():
         self.tile_path = TileMap(self,tile_size=16)
 
         
-                
-    1
+        
     def run_game(self):
         """method to run the game"""
         
@@ -82,9 +81,14 @@ class Game():
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
                         movement = [-5,-5]
                         
-                        
+            
+            #collision handling
+            
+            
+            
             self.player_1.update(movement)
             self.player_1.render(self.screen)
+            self.tile_path.tile_collision_check()
             self.tile_path.render_tiles(self.screen)
             
             
