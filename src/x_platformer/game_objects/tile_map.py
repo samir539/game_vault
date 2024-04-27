@@ -31,12 +31,12 @@ class TileMap():
         for i in range(1,25):
             self.tilemap[f"2,{i}"] = {"tile_type":"stone_tiles", "tile_edition":2,"pos":[2,i]}
     
-    def render_tiles(self,surface):
+    def render_tiles(self,surface,offset=(0,0)):
         for i in self.tilemap.values():
             tile = self.game.assets[i["tile_type"]][i["tile_edition"]]
             pos_x = i["pos"][0]*self.tile_size
             pos_y = i["pos"][1]*self.tile_size
-            surface.blit(tile, (pos_x,pos_y))
+            surface.blit(tile, (pos_x - offset[0],pos_y - offset[1]))
             
             
             
