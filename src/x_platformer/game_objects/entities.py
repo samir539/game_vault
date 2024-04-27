@@ -25,23 +25,31 @@ class physicalEntity():
         
     def update(self,movement=[0,0]):
         
-        if movement[0] == 1:    #x direction (right)
+        if movement[0] == 1 and not self.collisions["right"]:    #x direction (right)
             self.velocity[0] = min(self.max_veloctiy_x, self.velocity[0] + self.acceleration_x)
-        elif movement[0] == -1: #x direction (left)
+        elif movement[0] == 1 and self.collisions["right"]:
+            self.velocity[0] = 0
+        
+        elif movement[0] == -1 and not self.collisions["left"]: #x direction (left)
             self.velocity[0] = max(-self.max_veloctiy_y, (self.velocity[0] - self.acceleration_x))
+        elif movement[0] == -1 and self.collisions["left"]:
+            self.velocity[0] = 0
+        
+            
 
         elif movement == [-5,-5]:
             self.velocity[0] = 0
         
         #always have gravity acting
-        if not self.collisions["top"]:
+        if not self.collisions["bottom"]:
             self.velocity[1] = min(self.max_veloctiy_y, self.velocity[1] + self.acceleration_y)
-        elif self.collisions["top"]:
+        elif self.collisions["bottom"]:
             self.velocity[1] = 0
+        print("these are the collisions",self.collisions)
             
             
         
-        print("this is the velicty",self.velocity)
+        # print("this is the velicty",self.velocity)
         
         self.pos[0] += self.velocity[0]
         self.pos[1] += self.velocity[1]            
