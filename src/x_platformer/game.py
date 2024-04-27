@@ -57,6 +57,7 @@ class Game():
         
         
         movement = [0,0]
+        jump = False
         
         while True:
             self.screen.fill((32,178,170))
@@ -67,26 +68,30 @@ class Game():
                 if event.type == pygame.QUIT:
                     return
                 if event.type == pygame.KEYDOWN:
-                    if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
+                    if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d,pygame.K_SPACE]:
                         if event.key == pygame.K_w:
                             movement = [0,-self.player_move_unit]
                         if event.key == pygame.K_s:
                             movement = [0,self.player_move_unit]
                         if event.key == pygame.K_a:
                             movement = [-self.player_move_unit,0]
-                        if event.key == pygame.K_d:
+                        if event.key == pygame.K_d :
                             movement = [self.player_move_unit,0]
+                        if event.key == pygame.K_SPACE:
+                            jump = True
+                           
             
                 if event.type == pygame.KEYUP:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
-                        movement = [-5,-5]
+                        movement = ["stop_0","stop_1"]
                         
             
             #collision handling
             
             
             
-            self.player_1.update(movement)
+            self.player_1.update(movement, jump)
+            jump = False
             self.player_1.render(self.screen)
             self.tile_path.tile_collision_check()
             self.tile_path.render_tiles(self.screen)

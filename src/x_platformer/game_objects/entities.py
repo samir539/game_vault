@@ -23,13 +23,12 @@ class physicalEntity():
         
         
         
-    def update(self,movement=[0,0]):
+    def update(self,movement=[0,0],jump=None):
         
         if movement[0] == 1 and not self.collisions["right"]:    #x direction (right)
             self.velocity[0] = min(self.max_veloctiy_x, self.velocity[0] + self.acceleration_x)
         elif movement[0] == 1 and self.collisions["right"]:
             self.velocity[0] = 0
-        
         elif movement[0] == -1 and not self.collisions["left"]: #x direction (left)
             self.velocity[0] = max(-self.max_veloctiy_y, (self.velocity[0] - self.acceleration_x))
         elif movement[0] == -1 and self.collisions["left"]:
@@ -37,7 +36,7 @@ class physicalEntity():
         
             
 
-        elif movement == [-5,-5]:
+        elif movement == ["stop_0","stop_1"]:
             self.velocity[0] = 0
         
         #always have gravity acting
@@ -45,7 +44,10 @@ class physicalEntity():
             self.velocity[1] = min(self.max_veloctiy_y, self.velocity[1] + self.acceleration_y)
         elif self.collisions["bottom"]:
             self.velocity[1] = 0
-        print("these are the collisions",self.collisions)
+        
+        if jump:
+            self.velocity[1] = -8
+            print("jumps")
             
             
         

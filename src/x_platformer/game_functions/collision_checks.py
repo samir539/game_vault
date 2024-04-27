@@ -20,7 +20,6 @@ def check_side(rect1,rect2,dir=None):
     if dir == "bottom":
         collisions.append("bottom")
     if dir == "right":
-        # print("we do this check")
         collisions.append("right")
     if dir == "left" :
         collisions.append("left")
