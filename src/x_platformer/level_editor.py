@@ -51,7 +51,9 @@ class Game():
         
         #camera attributes
         self.panning = [2,2]
-        # print(self.panning)
+        
+        #mouse pos
+        self.mouse_pos = [0,0]
         
         
     def run_game(self):
@@ -62,6 +64,8 @@ class Game():
         
         
         while True:
+            mousepos = pygame.mouse.get_pos()
+            # print(mousepos)
             # print("this is centerx",self.player_1.entity_rect.centerx)
             # self.panning[0] += ( - self.panning[0])  / 5
             # self.panning[1] += (- self.panning[1])  / 5
@@ -83,8 +87,11 @@ class Game():
                             self.panning[0] -= 4
                         if event.key == pygame.K_d :
                             self.panning[0] += 4
+                    
                 
-                           
+                if event.key == pygame.MOUSEBUTTONDOWN:
+                    print("hello world",self.mousepos)
+                    
             
                 if event.type == pygame.KEYUP:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
