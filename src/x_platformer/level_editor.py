@@ -102,7 +102,12 @@ class LevelEditor():
                         
                 print(type(self.num))    
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.tile_path.tilemap[f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}"] = {"tile_type":self.assets_map[self.tile_type], "tile_edition":self.num,"pos":[pygame.mouse.get_pos()[0]//self.tile_path.tile_size,pygame.mouse.get_pos()[1]//self.tile_path.tile_size]}
+                    if f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}" in self.tile_path.tilemap:
+                        del self.tile_path.tilemap[f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}"]
+                    else:
+                        self.tile_path.tilemap[f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}"] = {"tile_type":self.assets_map[self.tile_type], "tile_edition":self.num,"pos":[pygame.mouse.get_pos()[0]//self.tile_path.tile_size,pygame.mouse.get_pos()[1]//self.tile_path.tile_size]}
+                        
+                
                     print(pygame.mouse.get_pos())
                 
            
