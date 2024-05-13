@@ -73,7 +73,7 @@ def main():
     list(snake_full.sprite_group)[0].move_snake("right")
     while True:
         screen.fill(0)
-        clock.tick(5)
+        clock.tick(20)
         
         if snake.lose == True:
             print("you lost")
