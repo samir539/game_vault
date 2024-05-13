@@ -13,6 +13,7 @@ import numpy as np
 from resource_handling.image_load import load_image, load_multiple_images
 from game_objects.entities import physicalEntity
 from game_objects.tile_map import TileMap
+import json
 
 
 SCREENWIDTH = 840
@@ -24,7 +25,7 @@ DISPLAY =  [SCREENWIDTH, SCREENHEIGHT]
 
 
 class Game():
-    def __init__(self):
+    def __init__(self,level_json):
         """init game class"""
         pygame.init()
         pygame.display.set_caption("x_platformer")
@@ -33,6 +34,7 @@ class Game():
         self.background.fill((0,0,0))
         self.clock = pygame.time.Clock()
         self.screen.blit(self.background,(0,0))
+        self.level = level_json
         pygame.display.flip()
         
     
@@ -49,7 +51,7 @@ class Game():
         
         #tile object
         self.tile_path = TileMap(self,tile_size=16)
-        
+        self.tile_path.tilemap = self.level
         
         #camera attributes
         self.panning = [2,2]
@@ -112,4 +114,7 @@ class Game():
 
 
 if __name__ == "__main__":
-    Game().run_game()
+    with open('sample.json', 'r') as file:
+        data = json.load(file)
+    game_x_plat = Game(data)
+    game_x_plat.run_game()
