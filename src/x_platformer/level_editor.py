@@ -11,6 +11,7 @@ import numpy as np
 from resource_handling.image_load import load_image, load_multiple_images
 from game_objects.entities import physicalEntity
 from game_objects.tile_map import TileMap
+import json
 
 
 
@@ -23,7 +24,7 @@ DISPLAY =  [SCREENWIDTH, SCREENHEIGHT]
 
 
 
-class Game():
+class LevelEditor():
     def __init__(self):
         """init game class"""
         pygame.init()
@@ -59,24 +60,23 @@ class Game():
     def run_game(self):
         """method to run the game"""
         
-        
+        self.screen.fill((100,100,100))
         movement = [0,0]
         
         
         while True:
-            mousepos = pygame.mouse.get_pos()
-            # print(mousepos)
-            # print("this is centerx",self.player_1.entity_rect.centerx)
-            # self.panning[0] += ( - self.panning[0])  / 5
-            # self.panning[1] += (- self.panning[1])  / 5
-            self.screen.fill((100,100,100))
+            self.mousepos = pygame.mouse.get_pos()
+            
+            
             self.clock.tick(FPS)
-            # self.panning[0] += 2
-            # self.panning[1] += 0            
-    
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.tile_path.tilemap[f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}"] = {"tile_type":"grass_tiles", "tile_edition":2,"pos":[pygame.mouse.get_pos()[0]//self.tile_path.tile_size,pygame.mouse.get_pos()[1]//self.tile_path.tile_size]}
+                    print(pygame.mouse.get_pos())
                 if event.type == pygame.KEYDOWN:
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d,pygame.K_SPACE]:
                         if event.key == pygame.K_w:
@@ -88,15 +88,11 @@ class Game():
                         if event.key == pygame.K_d :
                             self.panning[0] += 4
                     
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.MOUSEBUTTONDOWN:
-                        print("hello world",self.mousepos)
+                
+                    
                     
             
-                if event.type == pygame.KEYUP:
-                    if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d]:
-                        pass
-                        # self.panning[0], self.panning[1] = 0,0
+            
                         
             
             #collision handling
@@ -104,12 +100,24 @@ class Game():
             
             
             #updates and render
-            # self.tile_path.render_tiles(self.screen,self.panning)
+            # print("this is the tile map", self.tile_path.tilemap)
+            self.tile_path.render_tiles(self.screen,self.panning)
             
             
-               
+            # print("this is the tilemap",self.tile_path.tilemap)
             pygame.display.flip()
 
+    def save_tilemap_json(self):
+        """
+        method to save the generated tilemap
+        """
+        with open("sample.json", "w") as outfile: 
+            json.dump(self.tile_path.tilemap, outfile)
+        
 
 if __name__ == "__main__":
-    Game().run_game()
+    level = LevelEditor()
+    level.run_game()
+    level.save_tilemap_json()
+    
+    
