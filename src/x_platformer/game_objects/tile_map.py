@@ -22,14 +22,14 @@ class TileMap():
         self.surr_dir = {"top":[0,-1],"right":[1,0],"bottom":[0,1],"left":[-1,0]} #directions of four nearest tiles
         
         
-        for i in range(2,23):
-            self.tilemap[f"{i},13"] = {"tile_type":"grass_tiles", "tile_edition":2,"pos":[i,13]}
+        # for i in range(2,23):
+        #     self.tilemap[f"{i},13"] = {"tile_type":"grass_tiles", "tile_edition":2,"pos":[i,13]}
         
-        for i in range(1,25):
-            self.tilemap[f"10,{i}"] = {"tile_type":"stone_tiles", "tile_edition":2,"pos":[10,i]}
+        # for i in range(1,25):
+        #     self.tilemap[f"10,{i}"] = {"tile_type":"stone_tiles", "tile_edition":2,"pos":[10,i]}
             
-        for i in range(1,25):
-            self.tilemap[f"2,{i}"] = {"tile_type":"stone_tiles", "tile_edition":2,"pos":[2,i]}
+        # for i in range(1,25):
+        #     self.tilemap[f"2,{i}"] = {"tile_type":"stone_tiles", "tile_edition":2,"pos":[2,i]}
     
     def render_tiles(self,surface,offset=(0,0)):
         for i in self.tilemap.values():
