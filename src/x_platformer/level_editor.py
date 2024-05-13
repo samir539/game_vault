@@ -39,6 +39,7 @@ class LevelEditor():
     
         #assets
         self.assets = {}
+        self.assets_map = {1: "grass_tiles", 2:"stone_tiles"}
         self.player_img, _ = load_image("data/images/entities/player/idle/00.png")
         self.assets["player"] = self.player_img
         self.assets["grass_tiles"] = load_multiple_images("data/images/tiles/grass")
@@ -60,11 +61,14 @@ class LevelEditor():
     def run_game(self):
         """method to run the game"""
         
-        self.screen.fill((100,100,100))
-        movement = [0,0]
         
+        movement = [0,0]
+        self.num = 2
+        self.tile_type = 1
+            
         
         while True:
+            self.screen.fill((100,100,100))
             self.mousepos = pygame.mouse.get_pos()
             
             
@@ -74,10 +78,18 @@ class LevelEditor():
                 if event.type == pygame.QUIT:
                     return
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.tile_path.tilemap[f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}"] = {"tile_type":"grass_tiles", "tile_edition":2,"pos":[pygame.mouse.get_pos()[0]//self.tile_path.tile_size,pygame.mouse.get_pos()[1]//self.tile_path.tile_size]}
-                    print(pygame.mouse.get_pos())
+                
                 if event.type == pygame.KEYDOWN:
+                    if event.key in range(K_0, K_9):
+                        self.num = int(pygame.key.name(event.key))
+                    if event.key in [pygame.K_o, pygame.K_p]:
+                        if event.key == pygame.K_o:
+                            self.tile_type = 1
+                        if event.key == pygame.K_p:
+                            self.tile_type = 2  
+                            print("this is stone",type(self.assets_map[self.tile_type]),self.assets_map[self.tile_type] )
+                            # print()
+                        
                     if event.key in [pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_d,pygame.K_SPACE]:
                         if event.key == pygame.K_w:
                             self.panning[1] -= 4
@@ -87,6 +99,14 @@ class LevelEditor():
                             self.panning[0] -= 4
                         if event.key == pygame.K_d :
                             self.panning[0] += 4
+                        
+                print(type(self.num))    
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.tile_path.tilemap[f"{pygame.mouse.get_pos()[0]//self.tile_path.tile_size},{pygame.mouse.get_pos()[1]//self.tile_path.tile_size}"] = {"tile_type":self.assets_map[self.tile_type], "tile_edition":self.num,"pos":[pygame.mouse.get_pos()[0]//self.tile_path.tile_size,pygame.mouse.get_pos()[1]//self.tile_path.tile_size]}
+                    print(pygame.mouse.get_pos())
+                
+           
+                        
                     
                 
                     
