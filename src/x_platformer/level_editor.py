@@ -88,9 +88,9 @@ class Game():
                         if event.key == pygame.K_d :
                             self.panning[0] += 4
                     
-                
-                if event.key == pygame.MOUSEBUTTONDOWN:
-                    print("hello world",self.mousepos)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.MOUSEBUTTONDOWN:
+                        print("hello world",self.mousepos)
                     
             
                 if event.type == pygame.KEYUP:
