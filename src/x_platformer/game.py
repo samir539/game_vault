@@ -105,7 +105,8 @@ class Game():
             self.player_1.update(movement, jump)
             jump = False
             self.player_1.render(self.screen,self.panning)
-            self.tile_path.tile_collision_check()
+            self.tile_path.get_surr_tiles()
+            self.player_1.collision_check(self.tile_path)
             self.tile_path.render_tiles(self.screen,self.panning)
             
             

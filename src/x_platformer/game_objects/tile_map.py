@@ -38,31 +38,59 @@ class TileMap():
             pos_y = i["pos"][1]*self.tile_size
             surface.blit(tile, (pos_x - offset[0],pos_y - offset[1]))
     
-            
-            
-    def tile_collision_check(self):
-        self.game.player_1.collisions = dict.fromkeys(self.game.player_1.collisions, False) #Set all collision directions to false
+    def get_surr_tiles(self):
+        """
+        function to find the surrounding tile rects about the player
+        """    
+        # print("this is the tile map",self.tilemap)
+        
+        #1.) get player tile position
+        #2.) get surrounding tile direction:tile_rect  in dictionary
         player_pos = self.game.player_1.pos
-        player_tile =[int(x/self.tile_size) for x in player_pos] #get tile where player is
-        surrounding_tiles = {x:[player_tile[0] + self.surr_dir[x][0] ,player_tile[1] + self.surr_dir[x][1]] for x in self.surr_dir} #dict of four surrounding tiles and dir
-        print("these are the surounding tiles",surrounding_tiles, "this is the player tile",player_tile)
-        #loop through surrounding tiles get the rect and check for collision with player_rect
-        for tile_dir in surrounding_tiles:
-            # print("this is tile_dir",tile_dir)
-            tile_str = ",".join(map(str, surrounding_tiles[tile_dir]))
-            print("this is tile_str",tile_str)
+        player_tile = [int(x/self.tile_size) for x in player_pos]
+        surrounding_tiles = {x:[player_tile[0] + self.surr_dir[x][0], player_tile[1] + self.surr_dir[x][1]] for x in self.surr_dir}
+        print("this is the player tile", player_tile,"these are the surrounding tiles",surrounding_tiles)
+        surrounding_rects = {}
+        for dir,location in surrounding_tiles.items():
+            
+            tile_str = ",".join(map(str, location))
+            # print("this is the locations",tile_str)
             if tile_str in self.tilemap.keys():
-                tile_information = self.tilemap[tile_str]
-                tile_img = self.game.assets[tile_information["tile_type"]][tile_information["tile_edition"]]
-                dir = check_side(self.game.player_1.entity_rect,tile_img.get_rect(),tile_dir)
+                if dir in {"bottom","right"}:
+                    surrounding_rects[dir] = pygame.Rect((location[0]*self.tile_size,location[1]*self.tile_size),(self.tile_size,self.tile_size)) 
+                elif dir == "left":
+                    surrounding_rects[dir] = pygame.Rect((location[0]*self.tile_size+3,location[1]*self.tile_size+3),(self.tile_size,self.tile_size))
+                else:
+                    surrounding_rects[dir] = pygame.Rect((location[0]*self.tile_size,location[1]*self.tile_size+16),(self.tile_size,self.tile_size))
+                    
+
+        return surrounding_rects
+        
+        
+            
+    # def tile_collision_check(self):
+    #     self.game.player_1.collisions = dict.fromkeys(self.game.player_1.collisions, False) #Set all collision directions to false
+    #     player_pos = self.game.player_1.pos
+    #     player_tile =[int(x/self.tile_size) for x in player_pos] #get tile where player is
+    #     surrounding_tiles = {x:[player_tile[0] + self.surr_dir[x][0] ,player_tile[1] + self.surr_dir[x][1]] for x in self.surr_dir} #dict of four surrounding tiles and dir
+    #     print("these are the surounding tiles",surrounding_tiles, "this is the player tile",player_tile)
+    #     #loop through surrounding tiles get the rect and check for collision with player_rect
+    #     for tile_dir in surrounding_tiles:
+    #         # print("this is tile_dir",tile_dir)
+    #         tile_str = ",".join(map(str, surrounding_tiles[tile_dir]))
+    #         print("this is tile_str",tile_str)
+    #         if tile_str in self.tilemap.keys():
+    #             tile_information = self.tilemap[tile_str]
+    #             tile_img = self.game.assets[tile_information["tile_type"]][tile_information["tile_edition"]]
+    #             dir = check_side(self.game.player_1.entity_rect,tile_img.get_rect(),tile_dir)
                 
                 
-                print("this is the collision dir",dir)
-                # dir = check_side(5,5,tile_dir)
-                for i in dir:
-                    self.game.player_1.collisions[i] = True
-            else:
-                pass
+    #             print("this is the collision dir",dir)
+    #             # dir = check_side(5,5,tile_dir)
+    #             for i in dir:
+    #                 self.game.player_1.collisions[i] = True
+    #         else:
+    #             pass
             
 
 

@@ -23,6 +23,32 @@ class physicalEntity():
         self.entity_rect = self.game.assets["player"].get_rect()
         
         
+    def collision_check(self,tilemap):
+        """
+        check the collisions of the entity with surrounding tile environment
+        :param surr_tiles: dictionary of surrounding tiles pos:dir
+        """
+        self.collisions = {"top":False,"bottom":False,"right":False, "left":False}
+        #get surrounding 4 cubes 
+        #check collisions
+        #get direction of collisions and set self.collisions
+        entity_rect = pygame.Rect((self.pos[0],self.pos[1]),(self.entity_rect.width,self.entity_rect.height))
+        # print("this is the pos",self.pos)
+        # print("this is the entity_rect",entity_rect)
+        
+        surr_dict = tilemap.get_surr_tiles()
+        print("this is surr-dict",surr_dict)
+        for dirs,rects in surr_dict.items():
+            print("these are the dirs",dirs)
+            # print("this is the entity_rect",entity_rect,rects)
+            if pygame.Rect.colliderect(entity_rect,rects):
+                print("this happened")
+                self.collisions[dirs] = True
+        print("these are the collisiosn",self.collisions)
+                
+                
+        
+        
         
     def update(self,movement=[0,0],jump=None):
         self.entity_rect = self.game.assets["player"].get_rect()
