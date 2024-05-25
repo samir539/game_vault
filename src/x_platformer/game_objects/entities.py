@@ -31,7 +31,7 @@ class physicalEntity():
         elif movement[0] == 1 and self.collisions["right"]:
             self.velocity[0] = 0
         elif movement[0] == -1 and not self.collisions["left"]: #x direction (left)
-            self.velocity[0] = max(-self.max_veloctiy_y, (self.velocity[0] - self.acceleration_x))
+            self.velocity[0] = max(-self.max_veloctiy_x, (self.velocity[0] - self.acceleration_x))
         elif movement[0] == -1 and self.collisions["left"]:
             self.velocity[0] = 0
         

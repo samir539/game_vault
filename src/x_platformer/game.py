@@ -64,11 +64,11 @@ class Game():
         
         movement = [0,0]
         
-        print("this is panning",self.panning)
+        # print("this is panning",self.panning)
         jump = False
         
         while True:
-            print("this is centerx",self.player_1.entity_rect.centerx)
+            # print("this is centerx",self.player_1.entity_rect.centerx)
             self.panning[0] += ((self.player_1.pos[0] - self.screen.get_width()/2) - self.panning[0])  / 5
             self.panning[1] += ((self.player_1.pos[1] - self.screen.get_height()/2) - self.panning[1])  / 5
             self.screen.fill((32,178,170))

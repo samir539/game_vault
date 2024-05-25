@@ -17,6 +17,20 @@ def check_side(rect1,rect2,dir=None):
     given two rectangles determine if there is an intersection and if so in which direction (from the perspective of the first rectangle)
     """
     collisions = []
+    # if rect1.midleft <= rect2.midright:
+    #     collisions.append("left")
+    # if rect1.midright >= rect2.midleft:
+    #     collisions.append("right")
+    # if rect1.top <= rect2.bottom:
+    #     collisions.append("top")
+    # if rect1.bottom >= rect2.top:
+    #     collisions.append("bottom")
+    # return collisions
+    
+    
+    
+    
+    
     if dir == "bottom":
         collisions.append("bottom")
     if dir == "right":
