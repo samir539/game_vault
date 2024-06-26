@@ -46,16 +46,24 @@ class Board:
          
         
         
-    def move(self,given_move):
+    def move(self,given_move,player_turn):
         """
         pulic method
         1.) use _check_valid
         2.) see is propsed move is valid from piece pov
         3.) carry out the move and update board state
-        
+        gives a false if the move is not possible otherwise moves the piece and makes any associated neccesasry changes
         """
-        if not self._check_valid_piece(given_move):
+        if not self._check_valid_piece(given_move,player_turn):
             return False
+
+        piece = self._pieces_white[given_move[:2]] if player_turn  else self._pieces_black[given_move[:2]]
+        
+        if not piece.move():
+            return False
+        else:
+            #update board
+            pass
 
         
         
@@ -87,9 +95,9 @@ class Board:
             art = """
     
 =====================================================================================
-    _                     
-    | |                    
-___ | |__    ___  ___  ___ 
+      _                     
+     | |                    
+ ___ | |__    ___  ___  ___ 
 / __|| '_ \  / _ \/ __|/ __|
 | (__ | | | ||  __/\__ \\__ \\
 \___||_| |_| \___||___/|___/
