@@ -1,5 +1,5 @@
 import math
-from game_functions import make_pieces, format_of_move_valid
+from game_functions import make_pieces, format_of_move_valid, concat
 import sys
 import codecs
 
@@ -21,7 +21,7 @@ class Board:
         return self._pieces_white
     
     @property
-    def pieces_balck(self):
+    def pieces_black(self):
         return self._pieces_black        
     
     def _check_valid_piece(self,given_move,player_turn):
@@ -46,7 +46,7 @@ class Board:
          
         
         
-    def move(self,given_move,player_turn):
+    def update_board(self,given_move,player_turn):
         """
         pulic method
         1.) use _check_valid
@@ -59,7 +59,7 @@ class Board:
 
         piece = self._pieces_white[given_move[:2]] if player_turn  else self._pieces_black[given_move[:2]]
         
-        if not piece.move():
+        if not piece.move(self.pieces_white,self.pieces_black,start_position=given_move[:2],end_position=given_move[-2:]):
             return False
         else:
             #update board
@@ -83,10 +83,10 @@ class Board:
             row = []
             i = str(i)
             for j in range(1,9):
-                if nums_to_letters[j]+i in self._pieces_white :
-                    row.append(self._pieces_white[nums_to_letters[j]+i])
-                elif nums_to_letters[j]+i in self._pieces_black:
-                    row.append(self._pieces_black[nums_to_letters[j]+i])
+                if concat(i,j) in self._pieces_white :
+                    row.append(self._pieces_white[concat(i,j)])
+                elif concat(i,j) in self._pieces_black:
+                    row.append(self._pieces_black[concat(i,j)])
                 else:
                     row.append(".")
             board.append(row)
