@@ -67,9 +67,6 @@ class Pawn(AbstractChessPiece):
         compute valid moves
         check if end_position is in list of valid moves
         """
-        #get position and turn into list [1,1]
-        #dirs [-1,1], [0,1] , [1,1]
-        #loop over dirs but check edges
         valid_end_pos = set()
         possible_dirs = {"attack_left":[1,-1],"move_forward":[0,1],"attack_right":[1,1]} #diag left, forward , diag right
         start_pos_list = [int(x) for x in str(start_position)]
