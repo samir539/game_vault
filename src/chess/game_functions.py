@@ -60,13 +60,7 @@ def make_pieces():
     
     return white_pieces,black_pieces
 
-if __name__ == "__main__":
-    a,b = make_pieces()
-    print(a)
-    print(b)
-    print(type(concat(1,2)))
-    print(a[11])
-    
+
     
 def format_of_move_valid(move):
     """
@@ -89,3 +83,9 @@ def format_of_move_valid(move):
         return False
 
     return True
+
+if __name__ == "__main__":
+    a,b = make_pieces()
+    # print(a)
+    print(b)
+    
