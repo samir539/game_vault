@@ -84,8 +84,24 @@ def format_of_move_valid(move):
 
     return True
 
+def de_con_cat(position:int) -> list[int]:
+    """
+    helper function to deconcatenate a position back into a list of two integers representing the positon of a piece on the board
+    """
+    #could use mod method but this is easier to read
+    pos_list = [int(x) for x in str(position)]
+    return pos_list
+    
+
+def check_in_bounds(move):
+    """
+    helper function to check if proposed position is indeed on the board
+    param move: int consisting of the two coordinates concatenated together
+    """
+    pass
+    
+
 if __name__ == "__main__":
     a,b = make_pieces()
     # print(a)
-    print(b)
-    
+    print(type(b))
