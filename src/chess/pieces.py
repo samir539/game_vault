@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from game_functions import concat
+from support_functions import concat, format_of_move_valid, de_con_cat, check_in_bounds
 chess_pieces = {
     "black_King": "♔",    
     "black_Queen": "♕",  
@@ -55,7 +55,8 @@ class AbstractChessPiece(ABC):
                 return False
         return True        
         
-        
+    def is_king(self):
+        return False    
 
 class Pawn(AbstractChessPiece):
     def __init__(self,colour:str,position:int,active_status:bool):
@@ -126,20 +127,49 @@ class Queen(AbstractChessPiece):
     def move(self,white_pieces:list, black_pieces:list, start_position:str, end_position:str):
         pass
 
+
+
+
 class King(AbstractChessPiece):
     def __init__(self,colour:str,position:int,active_status:bool):
         super().__init__(colour,position,active_status)
         
-    def move(self,white_pieces:list, black_pieces:list, start_position:str, end_position:str):
-        pass
+
+    def valid_destinations(self, white_pieces:dict, black_pieces:dict):
+        """
+        compute the set of all possible moves the king can make based on its current position and the state of the board
+        (come back to include castling etc.)
+        """
+        valid_pos_set = set()
+        pos = de_con_cat(self._position)
+        surr_grid = [[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]]
+        for i in surr_grid:
+            moved_pos = [x+y for x,y in zip(pos,i)]
+            if check_in_bounds(moved_pos):
+                valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
+        return valid_pos_set
+        
+        
+        
+    def move(self,white_pieces:dict, black_pieces:dict, start_position:str, end_position:str):
+       pass 
+        
+        
+    def is_king(self):
+        """
+        public method
+        """
+        return True
 
 
 
 
 if __name__ == "__main__":
     
-    pawn1 = Pawn("white","a1",True)
-    print(pawn1.active_status,pawn1.colour,pawn1.position)
-    print(pawn1)
-    rook1 = Rook("black","b2",True)
-    print(rook1)
+    # pawn1 = Pawn("white","a1",True)
+    # print(pawn1.active_status,pawn1.colour,pawn1.position)
+    # print(pawn1)
+    # rook1 = Rook("black","b2",True)
+    # print(rook1)
+    king = King("white",15,True)
+    print(king.valid_destinations({},{}))
