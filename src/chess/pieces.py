@@ -62,36 +62,30 @@ class Pawn(AbstractChessPiece):
     def __init__(self,colour:str,position:int,active_status:bool):
         super().__init__(colour,position,active_status)
     
+    def valid_destinations(self, friendly_pieces:dict, enemy_pieces:dict):
+        """
+        compute the set of all possible moves the pawn can make based on its current position and the state of the board
+        (come back to include first move pawn, en passent, end of board look at grid order too
+        """
 
+        
+        valid_pos_set = set()
+        pos = de_con_cat(self._position)
+        surr_grid = {"left":[1,-1],"forward":[1,0],"right":[1,1]}
+        for key,value in surr_grid.items():
+            moved_pos = [x+y for x,y in zip(pos,value)]
+            if (key == "left" or key == "right") and (check_in_bounds(moved_pos) and concat(moved_pos[0],moved_pos[1]) in enemy_pieces):
+                valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
+            elif key == "forward" and (check_in_bounds(moved_pos) and (concat(moved_pos[0],moved_pos[1]) not in friendly_pieces) and (concat(moved_pos[0],moved_pos[1]) not in enemy_pieces)):
+                valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
+        return valid_pos_set
+                
+                
+                
+    
+    
     def move(self,white_pieces:list, black_pieces:list, start_position:int, given_end_position:int):
-        """
-        compute valid moves
-        check if end_position is in list of valid moves
-        """
-        valid_end_pos = set()
-        possible_dirs = {"attack_left":[1,-1],"move_forward":[0,1],"attack_right":[1,1]} #diag left, forward , diag right
-        start_pos_list = [int(x) for x in str(start_position)]
-        
-        
-        #attack left
-        end_pos = [a+b for a,b in zip(possible_dirs["attack_left"],start_pos_list)]
-        if (self.check_pos_on_board(end_pos)) and (end_pos in black_pieces if self._colour == "white" else end_pos in white_pieces):
-            valid_end_pos.add(end_pos)
-            
-        #attack right
-        end_pos = [a+b for a,b in zip(possible_dirs["attack_right"],start_pos_list)]
-        if (self.check_pos_on_board(end_pos)) and (end_pos in black_pieces if self._colour == "white" else end_pos in white_pieces):
-            valid_end_pos.add(end_pos)
-        
-        #move forward
-        end_pos = [a+b for a,b in zip(possible_dirs["move_forward"],start_pos_list)]
-        if (self.check_pos_on_board(end_pos)) and (end_pos not in (black_pieces or white_pieces)):
-            valid_end_pos.add(end_pos)
-            
-        if given_end_position in valid_end_pos:
-            return True
-        else:
-            return False
+        pass
         
 
         
