@@ -135,17 +135,19 @@ class King(AbstractChessPiece):
         super().__init__(colour,position,active_status)
         
 
-    def valid_destinations(self, white_pieces:dict, black_pieces:dict):
+    def valid_destinations(self, friendly_pieces:dict, enemy_pieces:dict):
         """
         compute the set of all possible moves the king can make based on its current position and the state of the board
         (come back to include castling etc.)
         """
+
+        
         valid_pos_set = set()
         pos = de_con_cat(self._position)
         surr_grid = [[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]]
         for i in surr_grid:
             moved_pos = [x+y for x,y in zip(pos,i)]
-            if check_in_bounds(moved_pos):
+            if check_in_bounds(moved_pos) and concat(moved_pos[0],moved_pos[1]) not in friendly_pieces:
                 valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
         return valid_pos_set
         
@@ -172,4 +174,5 @@ if __name__ == "__main__":
     # rook1 = Rook("black","b2",True)
     # print(rook1)
     king = King("white",15,True)
+    
     print(king.valid_destinations({},{}))
