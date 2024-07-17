@@ -93,15 +93,20 @@ def de_con_cat(position:int) -> list[int]:
     return pos_list
     
 
-def check_in_bounds(move):
+def check_in_bounds(position_as_list: list[int]) -> bool:
     """
     helper function to check if proposed position is indeed on the board
-    param move: int consisting of the two coordinates concatenated together
+    param position_as_list: the position as a list of integers
     """
-    pass
+    for i in position_as_list:
+        if i < 1 or i > 8:
+            return False
+    return True
+    
     
 
 if __name__ == "__main__":
     a,b = make_pieces()
     # print(a)
     print(type(b))
+    print(check_in_bounds([2,-2]))
