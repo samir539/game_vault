@@ -105,7 +105,7 @@ class Rook(AbstractChessPiece):
         
     def valid_destinations(self, friendly_pieces:dict, enemy_pieces:dict):
         """
-        compute the set of all possible moves a knight can make based on its current position and the state of the board
+        compute the set of all possible moves a rook can make based on its current position and the state of the board
         """
         valid_pos_set = set()
         pos = de_con_cat(self._position)
@@ -119,7 +119,7 @@ class Rook(AbstractChessPiece):
                 if concat(moved_pos[0],moved_pos[1]) in enemy_pieces:
                     valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
                     break
-                
+
         return valid_pos_set
         
         
@@ -151,6 +151,25 @@ class Knight(AbstractChessPiece):
 class Bishop(AbstractChessPiece):
     def __init__(self,colour:str,position:int,active_status:bool):
         super().__init__(colour,position,active_status)
+        
+    def valid_destinations(self, friendly_pieces:dict, enemy_pieces:dict):
+        """
+        compute the set of all possible moves a bishop can make based on its current position and the state of the board
+        """
+        valid_pos_set = set()
+        pos = de_con_cat(self._position)
+        surr_pos = {"nw":[-1,1],"ne":[1,1],"se":[1,-1],"sw":[-1,-1]}
+        
+        for key,value in surr_pos.items():
+            moved_pos = [x+y for x,y in zip(pos,value)]
+            while check_in_bounds(moved_pos) and concat(moved_pos[0],moved_pos[1]) not in friendly_pieces:
+                valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
+                moved_pos = [x+y for x,y in zip(moved_pos,value)]
+                if concat(moved_pos[0],moved_pos[1]) in enemy_pieces:
+                    valid_pos_set.add(concat(moved_pos[0],moved_pos[1]))
+                    break
+                
+        return valid_pos_set
         
     def move(self,white_pieces:list, black_pieces:list, start_position:str, end_position:str):
         pass
