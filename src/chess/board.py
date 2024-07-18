@@ -75,7 +75,7 @@ class Board:
         
         
     
-    def _look_for_check(self,friendly_pieces, enemy_pieces):
+    def look_for_check(self,friendly_pieces, enemy_pieces):
         """
         given the state of the board from a set perspective (white or black) then we need 
         """
@@ -100,7 +100,7 @@ class Board:
 
         friendly_pieces, enemy_pieces = (white_pieces, black_pieces) if player_move == 1 else (black_pieces, white_pieces)
     
-    def _look_for_checkmate(self,friendly_pieces, enemy_pieces,player_turn):
+    def look_for_checkmate(self,friendly_pieces, enemy_pieces,player_turn):
         """
         give a certain players turn, check to see if the move carried out renders the oppoenent into a state of checkmate
         """
@@ -118,7 +118,7 @@ class Board:
             friendly_pieces_copy.update_key(king_piece,valid_move)
             if self._look_for_check(friendly_pieces_copy,enemy_pieces):
                 return True
-                
+
         return False
                       
 
@@ -137,6 +137,7 @@ class Board:
         gives a false if the move is not possible otherwise moves the piece and makes any associated neccesasry changes and returns true
         """
         
+        friendly_pieces, enemy_pieces = (self.pieces_white, self.pieces_black) if player_turn == 1 else (self.pieces_black, self.pieces_white)
         #cehck if move is valid (pieice is correct colour, on board, destination is on board)
         #check if opens up check 
         #check if end loc is in the set of potential moves 
@@ -160,33 +161,21 @@ class Board:
             return False
 
         #get the piece in question
-        piece = self._pieces_white[given_move[:2]] if player_turn  else self._pieces_black[given_move[:2]]
+        piece_moved = friendly_pieces[start_pos]
         
         #check if move is valid from the piece POV
-        if not piece.move(self.pieces_white,self.pieces_black,start_position=given_move[:2],end_position=given_move[-2:]):
+        if end_pos not in piece_moved.valid_destinations():
             return False
-        else:
+        
+        #if all these pass update position of piece and remove any neccessary pieces
+        #delete pieces which are captures
+        if end_pos in enemy_pieces:
+            del enemy_pieces[end_pos]
             
-            #check if move is a capture move 
-            capture = False
-            if player_turn:
-                if given_move[-2:] in self._pieces_black:
-                    capture = True
-            else:
-                if given_move[-2:] in self._pieces_white:
-                    capture = True
-            
-            #delete captured piece from board
-            if capture == True:
-                del self._target_pieces(player_turn)[given_move[-2:]]
-
-            #move piece to end location
-            self._target_pieces(player_turn)[given_move[-2:]] = self._target_pieces(player_turn).pop(given_move[:2])
-            
-            #look to see if new move renders checkmate
-
-            #look to see if new move renders check
-            
+        #move pieces
+        friendly_pieces.update_key(piece_moved,end_pos)
+        
+        return True 
             
 
             
