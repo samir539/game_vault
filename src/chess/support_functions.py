@@ -47,3 +47,40 @@ def format_of_move_valid(move):
 
     return True
 
+    
+class DynamicKeyDict():
+    def __init__(self):
+        self._store = {}
+        
+    def add(self,obj):
+        self._store[obj.position] = obj
+
+    def __getitem__(self,key):
+        return self._store[key]
+    
+    def __setitem__(self,key,obj):
+        if key in self._store:
+            del self._store[key]
+        self._store[obj.position] = obj
+        
+    def __delitem__(self,key):
+        del self._store[key]
+        
+    def __iter__(self):
+        return iter(self._store)
+    
+    def __len__(self):
+        return len(self._store)
+    
+    def __repr__(self):
+        return repr(self._store)
+    
+    def update_key(self,obj,new_name):
+        if obj.position in self._store:
+            del self._store[obj.position]
+        obj.position = new_name
+        self._store[new_name] = obj
+        
+
+
+
