@@ -1,11 +1,14 @@
 import math
-from game_functions import make_pieces, format_of_move_valid, concat
+from game_functions import make_pieces
+from support_functions import concat, format_of_move_valid
 import sys
 import codecs
 
 # Setting the output encoding to UTF-8
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.buffer, 'strict')
 nums_to_letters = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h"}
+letters_to_nums = {"a":1,"b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8}
+
 
 #white 1
 #black 0
@@ -33,14 +36,16 @@ class Board:
         2.) check requested piece is the correct colour
         3.) check if moving requested piece opens up a check 
         """    
+        start_pos, end_pos = concat(given_move[0],given_move[1]), concat(given_move[2],given_move[3])
+        
         #check if input has correct format
         query_valid = True if format_of_move_valid(given_move) else False
 
         #check if requested piece is on the board and of the correct colour
         if player_turn == 1:
-            piece_on_board = True if given_move[-2:] in self._pieces_white else False
+            piece_on_board = True if start_pos in self._pieces_white else False
         else:
-            piece_on_board = True if given_move[-2:] in self._pieces_black else False
+            piece_on_board = True if start_pos in self._pieces_black else False
         
         #look if move reveals check
         not_reveal_check = True #Come back to implementing this 
@@ -54,8 +59,48 @@ class Board:
         
         return False
     
-    def _look_for_check(self):
-        pass
+    def _inspect_reveal_check(self,start_pos,end_pos,player_move) -> bool:
+        #make state of board with proposed move and check if it opens up a check
+        friendly_pieces, enemy_pieces = (self._pieces_white.copy(), self._pieces_black.copy()) if player_move == 1 else (self._pieces_black.copy(), self._pieces_white.copy())
+        #update friendly positions with proposed move
+        if end_pos in enemy_pieces:
+            del enemy_pieces[end_pos]
+            
+        #piece_to_move
+        piece_to_move = friendly_pieces[start_pos]
+        friendly_pieces.update_key(piece_to_move,end_pos)
+        #check if the changed state leads to check on the friendly king
+        if self._look_for_check(friendly_pieces,enemy_pieces):
+            return True
+        else:
+            return False
+        
+        
+    
+    def _look_for_check(self,friendly_pieces, enemy_pieces):
+        """
+        given the state of the board from a set perspective (white or black) then we need 
+        """
+        #get position of friendly king
+        
+        for pos,piece in friendly_pieces.items():
+            if piece.is_king():
+                king_pos = pos
+        
+        #see if position is in the set of postions which enemy pieces can reach
+        enemy_attack_positions_set = {}
+        for piece in enemy_pieces.values():
+            enemy_attack_positions_set.add(piece.valid_pos_set())
+        
+        if king_pos in enemy_attack_positions_set:
+            return True
+        else:
+            return False
+             
+            
+        
+
+        friendly_pieces, enemy_pieces = (white_pieces, black_pieces) if player_move == 1 else (black_pieces, white_pieces)
     
     def _look_for_checkmate(self,player_turn):
         """
@@ -73,10 +118,8 @@ class Board:
                 
         king_pos = get_king_pos()
         print(king_pos,type(king_pos),list(king_pos))
-        surr_grid = [[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]]
         
                 
-        
          
         
         
@@ -86,8 +129,27 @@ class Board:
         1.) use _check_valid
         2.) see is propsed move is valid from piece pov
         3.) carry out the move and update board state
-        gives a false if the move is not possible otherwise moves the piece and makes any associated neccesasry changes
+        gives a false if the move is not possible otherwise moves the piece and makes any associated neccesasry changes and returns true
         """
+        
+        #cehck if move is valid (pieice is correct colour, on board, destination is on board)
+        #check if opens up check 
+        #check if end loc is in the set of potential moves 
+        #if all checks pass move piece, update positions and remove pieces as neccessary
+        
+        #convert given move from alphanumeric to just numeric (str -> list[int])
+        given_move = []
+        for i in given_move:
+            if i in nums_to_letters:
+                given_move.append(i)
+            elif i in letters_to_nums:
+                given_move.append(letters_to_nums[i])
+                
+        start_pos, end_pos = concat(given_move[0],given_move[1]), concat(given_move[2],given_move[3])
+        
+        
+        
+        
         #check if valid move
         if not self._check_valid_piece(given_move,player_turn):
             return False
