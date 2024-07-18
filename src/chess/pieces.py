@@ -28,7 +28,7 @@ class AbstractChessPiece(ABC):
         return chess_pieces[self._colour + "_" + self.__class__.__name__]
     
     @abstractmethod
-    def move(self):
+    def move(self,location):
         pass
     
     @property
