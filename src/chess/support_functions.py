@@ -32,20 +32,10 @@ def format_of_move_valid(move):
     if len(move) != 4:
         return False
     
-    start_file = move[0]
-    start_rank = move[1]
-    end_file = move[2]
-    end_rank = move[3]
-    
-    # check between 'a' and 'h'
-    if start_file not in 'abcdefgh' or end_file not in 'abcdefgh':
-        return False
-    
-    # check '1' and '8'
-    if start_rank not in '12345678' or end_rank not in '12345678':
-        return False
+    if check_in_bounds(move[:2]) and check_in_bounds(move[-2:]):
+        return True 
 
-    return True
+    return False
 
     
 class DynamicKeyDict():
