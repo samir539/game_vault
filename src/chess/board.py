@@ -48,12 +48,10 @@ class Board:
             piece_on_board = True if start_pos in self._pieces_black else False
         
         #look if move reveals check
-        not_reveal_check = True #Come back to implementing this 
+        not_reveal_check = True if self._inspect_reveal_check(start_pos,end_pos,player_turn) else False
         
-        #check if move end location is on a same coloured piece
         
 
-        #valid check
         if not_reveal_check and piece_on_board and query_valid:
             return True
         
@@ -90,7 +88,7 @@ class Board:
         #see if position is in the set of postions which enemy pieces can reach
         enemy_attack_positions_set = {}
         for piece in enemy_pieces.values():
-            enemy_attack_positions_set.add(piece.valid_pos_set())
+            enemy_attack_positions_set.add(piece.valid_destinations())
         
         if king_pos in enemy_attack_positions_set:
             return True
@@ -102,22 +100,29 @@ class Board:
 
         friendly_pieces, enemy_pieces = (white_pieces, black_pieces) if player_move == 1 else (black_pieces, white_pieces)
     
-    def _look_for_checkmate(self,player_turn):
+    def _look_for_checkmate(self,friendly_pieces, enemy_pieces,player_turn):
         """
         give a certain players turn, check to see if the move carried out renders the oppoenent into a state of checkmate
         """
         #check all 9 surrounding squares to see if any still yield a check 
         #get pos of king
         #get surr 9 squares
-        def get_king_pos():
-            for i in self._target_pieces(player_turn).values():
-                print(i)
-            for pos,piece in self._target_pieces(player_turn).items():
-                if piece.is_king():
-                    return pos
+        friendly_pieces_copy = friendly_pieces.copy()
+        
+        for pos,piece in friendly_pieces.items():
+            if piece.is_king():
+                king_piece, king_pos = piece, pos
+        
+        valid_moves_of_king = king_piece.valid_destinations()
+        for valid_move in valid_moves_of_king:
+            friendly_pieces_copy.update_key(king_piece,valid_move)
+            if self._look_for_check(friendly_pieces_copy,enemy_pieces):
+                return True
                 
-        king_pos = get_king_pos()
-        print(king_pos,type(king_pos),list(king_pos))
+        return False
+                      
+
+
         
                 
          
