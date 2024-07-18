@@ -57,9 +57,9 @@ class Board:
         
         return False
     
-    def _inspect_reveal_check(self,start_pos,end_pos,player_move) -> bool:
-        #make state of board with proposed move and check if it opens up a check
-        friendly_pieces, enemy_pieces = (self._pieces_white.copy(), self._pieces_black.copy()) if player_move == 1 else (self._pieces_black.copy(), self._pieces_white.copy())
+    def _inspect_reveal_check(self,start_pos,end_pos,player_turn) -> bool:
+        #make a new state of board with proposed move and check if it opens up a check
+        friendly_pieces, enemy_pieces = (self._pieces_white.copy(), self._pieces_black.copy()) if player_turn == 1 else (self._pieces_black.copy(), self._pieces_white.copy())
         #update friendly positions with proposed move
         if end_pos in enemy_pieces:
             del enemy_pieces[end_pos]
@@ -68,17 +68,19 @@ class Board:
         piece_to_move = friendly_pieces[start_pos]
         friendly_pieces.update_key(piece_to_move,end_pos)
         #check if the changed state leads to check on the friendly king
-        if self._look_for_check(friendly_pieces,enemy_pieces):
+        if self.look_for_check(player_turn,friendly_pieces,enemy_pieces):
             return True
         else:
             return False
         
         
     
-    def look_for_check(self,friendly_pieces, enemy_pieces):
+    def look_for_check(self,player_turn,friendly_pieces=None,enemy_pieces=None):
         """
-        given the state of the board from a set perspective (white or black) then we need 
+        given the state of the board from a set perspective of player_turn (white or black) then we need 
         """
+        if friendly_pieces == None and enemy_pieces == None:
+            friendly_pieces, enemy_pieces = (self.pieces_white, self.pieces_black) if player_turn == 1 else (self.pieces_black, self.pieces_white)
         #get position of friendly king
         
         for pos,piece in friendly_pieces.items():
@@ -116,7 +118,7 @@ class Board:
         valid_moves_of_king = king_piece.valid_destinations()
         for valid_move in valid_moves_of_king:
             friendly_pieces_copy.update_key(king_piece,valid_move)
-            if self._look_for_check(friendly_pieces_copy,enemy_pieces):
+            if self.look_for_check(player_turn,friendly_pieces_copy,enemy_pieces):
                 return True
 
         return False
