@@ -88,9 +88,9 @@ class Board:
                 king_pos = pos
         
         #see if position is in the set of postions which enemy pieces can reach
-        enemy_attack_positions_set = {}
+        enemy_attack_positions_set = set()
         for piece in enemy_pieces.values():
-            enemy_attack_positions_set.add(piece.valid_destinations())
+            enemy_attack_positions_set |= piece.valid_destinations(friendly_pieces,enemy_pieces)
         
         if king_pos in enemy_attack_positions_set:
             return True
@@ -115,7 +115,7 @@ class Board:
             if piece.is_king():
                 king_piece, king_pos = piece, pos
         
-        valid_moves_of_king = king_piece.valid_destinations()
+        valid_moves_of_king = king_piece.valid_destinations(friendly_pieces,enemy_pieces)
         for valid_move in valid_moves_of_king:
             friendly_pieces_copy.update_key(king_piece,valid_move)
             if self.look_for_check(player_turn,friendly_pieces_copy,enemy_pieces):
@@ -130,7 +130,7 @@ class Board:
          
         
         
-    def update_board(self,given_move,player_turn):
+    def update_board(self,given_move,player_turn,simulated_update=False):
         """
         pulic method
         1.) use _check_valid
@@ -138,8 +138,10 @@ class Board:
         3.) carry out the move and update board state
         gives a false if the move is not possible otherwise moves the piece and makes any associated neccesasry changes and returns true
         """
-        
-        friendly_pieces, enemy_pieces = (self.pieces_white, self.pieces_black) if player_turn == 1 else (self.pieces_black, self.pieces_white)
+        if simulated_update == True:
+            friendly_pieces, enemy_pieces = (self.pieces_white.copy(), self.pieces_black.copy()) if player_turn == 1 else (self.pieces_black.copy(), self.pieces_white.copy())
+        else:
+            friendly_pieces, enemy_pieces = (self.pieces_white, self.pieces_black) if player_turn == 1 else (self.pieces_black, self.pieces_white)
         #cehck if move is valid (pieice is correct colour, on board, destination is on board)
         #check if opens up check 
         #check if end loc is in the set of potential moves 
@@ -166,7 +168,7 @@ class Board:
         piece_moved = friendly_pieces[start_pos]
         
         #check if move is valid from the piece POV
-        if end_pos not in piece_moved.valid_destinations():
+        if end_pos not in piece_moved.valid_destinations(friendly_pieces,enemy_pieces):
             return False
         
         #if all these pass update position of piece and remove any neccessary pieces
@@ -177,7 +179,11 @@ class Board:
         #move pieces
         friendly_pieces.update_key(piece_moved,end_pos)
         
-        return True 
+        if simulated_update == True:
+            return True, friendly_pieces, enemy_pieces
+        else:
+            
+            return True 
             
 
             
