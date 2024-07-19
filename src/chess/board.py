@@ -59,7 +59,7 @@ class Board:
     
     def _inspect_reveal_check(self,start_pos,end_pos,player_turn) -> bool:
         #make a new state of board with proposed move and check if it opens up a check
-        friendly_pieces, enemy_pieces = (self._pieces_white.copy(), self._pieces_black.copy()) if player_turn == 1 else (self._pieces_black.copy(), self._pieces_white.copy())
+        friendly_pieces, enemy_pieces = (self._pieces_white.deepcopy(), self._pieces_black.deepcopy()) if player_turn == 1 else (self._pieces_black.deepcopy(), self._pieces_white.deepcopy())
         #update friendly positions with proposed move
         if end_pos in enemy_pieces:
             del enemy_pieces[end_pos]
@@ -79,6 +79,7 @@ class Board:
         """
         given the state of the board from a set perspective of player_turn (white or black) then we need 
         """
+        # print("before look for check", self.pieces_white)
         if friendly_pieces == None and enemy_pieces == None:
             friendly_pieces, enemy_pieces = (self.pieces_white, self.pieces_black) if player_turn == 1 else (self.pieces_black, self.pieces_white)
         #get position of friendly king
@@ -91,7 +92,7 @@ class Board:
         enemy_attack_positions_set = set()
         for piece in enemy_pieces.values():
             enemy_attack_positions_set |= piece.valid_destinations(friendly_pieces,enemy_pieces)
-        
+        # print("after look for check", self.pieces_white)
         if king_pos in enemy_attack_positions_set:
             return True
         else:
@@ -138,6 +139,7 @@ class Board:
         3.) carry out the move and update board state
         gives a false if the move is not possible otherwise moves the piece and makes any associated neccesasry changes and returns true
         """
+        
         if simulated_update == True:
             friendly_pieces, enemy_pieces = (self.pieces_white.copy(), self.pieces_black.copy()) if player_turn == 1 else (self.pieces_black.copy(), self.pieces_white.copy())
         else:
@@ -158,17 +160,19 @@ class Board:
         start_pos, end_pos = concat(processed_move[0],processed_move[1]), concat(processed_move[2],processed_move[3])
         
         
-        
+        piece_moved = friendly_pieces[start_pos]
         
         #check if valid move
         if not self._check_valid_piece(processed_move,player_turn):
-            print("this happened")
             return False
 
         #get the piece in question
         piece_moved = friendly_pieces[start_pos]
         
         #check if move is valid from the piece POV
+        print("this is end pos",end_pos)
+        print("THIS IS THE PIECE MOVED",piece_moved.position)
+        print("this is desinations",piece_moved.valid_destinations(friendly_pieces,enemy_pieces))
         if end_pos not in piece_moved.valid_destinations(friendly_pieces,enemy_pieces):
             print("THIS HAPPENED")
             return False
