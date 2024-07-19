@@ -68,10 +68,19 @@ class Pawn(AbstractChessPiece):
         (come back to include first move pawn, en passent, end of board look at grid order too
         """
 
+        # print("this is pawn valid dest")
+        
+        #black inversion for pawns
+        first_val = next(iter(friendly_pieces.values()))#get first value
+        if first_val.colour == "black":
+            surr_grid = surr_grid = {"left":[-1,-1],"forward":[-1,0],"right":[-1,1]}
+        else:
+            surr_grid = {"left":[1,-1],"forward":[1,0],"right":[1,1]}
+            
         
         valid_pos_set = set()
         pos = de_con_cat(self._position)
-        surr_grid = {"left":[1,-1],"forward":[1,0],"right":[1,1]}
+        
         for key,value in surr_grid.items():
             moved_pos = [x+y for x,y in zip(pos,value)]
             if (key == "left" or key == "right") and (check_in_bounds(moved_pos) and concat(moved_pos[0],moved_pos[1]) in enemy_pieces):
