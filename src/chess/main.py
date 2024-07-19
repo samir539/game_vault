@@ -1,34 +1,55 @@
-chess_pieces = {
-    "White_King": "\u2654",
-    "White_Queen": "\u2655",
-    "White_Rook": "\u2656",
-    "White_Bishop": "\u2657",
-    "White_Knight": "\u2658",
-    "White_Pawn": "\u2659",
-    "Black_King": "\u265A",
-    "Black_Queen": "\u265B",
-    "Black_Rook": "\u265C",
-    "Black_Bishop": "\u265D",
-    "Black_Knight": "\u265E",
-    "Black_Pawn": "\u265F"
-}
+from pieces import AbstractChessPiece,Pawn,Rook,Knight,Bishop,Queen,King
+from board import Board
+from game_functions import make_pieces
+from support_functions import format_of_move_valid 
 
 
 class Game:
-    def __init__(self,board,peices):
+    def __init__(self,board):
         self._board = board
-        self._peices = peices
+        self._running = True
+        self._player_turn = 1
+        
+    @property
+    def board(self):
+        return self._board
+    
+    @property
+    def player_turn(self):
+        return self._player_turn
+    
         
     def run_game(self):
-        pass
+        self._board.render()
+        while self._running:
+            if self.board.look_for_check(self.player_turn): #investigate check
+                if self.board.look_for_checkmate(self.player_turn): #investigate checkmate
+                    print(f"It is checkmate and player {self.player_turn} has lost")
+                    self._running = False
+                    break
+                
+                #prompt user to escape check
+                while True:
+                    move = input(f"It is check for player {self.player_turn}, please address this...")
+                    _, friendly, enemy = self.board.update_board(move, self.player_turn, simulated_update=True)
+                    if not self.board.look_for_check(self.player_turn, friendly, enemy):
+                        self.board.update_board(move, self.player_turn, simulated_update=False)
+                        break
+            else:
+                move = input(f"{self.player_turn} please make a move\n")
+                print(self.board.update_board(move,self.player_turn))        
+            self._board.render()
+            self._player_turn ^= 1
         #game loop
         #rendering
-        
-    
-    
 
 
 if __name__ == "__main__":
-    a,b = 5
-    myGame = Game(a,b)
+    #generate starting pieces
+    white_pieces, black_pieces = make_pieces()
+    game_board = Board(white_pieces, black_pieces)
+    myGame = Game(game_board)
     myGame.run_game()
+    # a,b = 5
+    # myGame = Game(a,b)
+    # myGame.run_game()
