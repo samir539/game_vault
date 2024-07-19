@@ -46,10 +46,10 @@ class Board:
             piece_on_board = True if start_pos in self._pieces_white else False
         else:
             piece_on_board = True if start_pos in self._pieces_black else False
+            
         
         #look if move reveals check
-        not_reveal_check = True if self._inspect_reveal_check(start_pos,end_pos,player_turn) else False
-        
+        not_reveal_check = False if self._inspect_reveal_check(start_pos,end_pos,player_turn) else True
         
 
         if not_reveal_check and piece_on_board and query_valid:
@@ -162,6 +162,7 @@ class Board:
         
         #check if valid move
         if not self._check_valid_piece(processed_move,player_turn):
+            print("this happened")
             return False
 
         #get the piece in question
@@ -169,6 +170,7 @@ class Board:
         
         #check if move is valid from the piece POV
         if end_pos not in piece_moved.valid_destinations(friendly_pieces,enemy_pieces):
+            print("THIS HAPPENED")
             return False
         
         #if all these pass update position of piece and remove any neccessary pieces
@@ -177,6 +179,7 @@ class Board:
             del enemy_pieces[end_pos]
             
         #move pieces
+        print("this is the end pos",end_pos)
         friendly_pieces.update_key(piece_moved,end_pos)
         
         if simulated_update == True:
@@ -190,6 +193,7 @@ class Board:
     
     
     def render(self):
+        print(self.pieces_white)
         #render state of the board
         board = []
         for i in reversed(range(1,9)):
