@@ -1,4 +1,4 @@
-
+import copy
 def concat(a,b):
     """
     function to concatenate two integers 8,9 -> 89
@@ -86,4 +86,9 @@ class DynamicKeyDict:
         new_copy = DynamicKeyDict()
         new_copy._store = self._store.copy()
         return new_copy
+
+    def deepcopy(self):
+        new_copy = DynamicKeyDict()
+        new_copy._store = copy.deepcopy(self._store)
+        return new_copy 
 
