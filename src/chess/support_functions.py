@@ -1,4 +1,8 @@
 import copy
+
+
+
+
 def concat(a,b):
     """
     function to concatenate two integers 8,9 -> 89
@@ -91,4 +95,31 @@ class DynamicKeyDict:
         new_copy = DynamicKeyDict()
         new_copy._store = copy.deepcopy(self._store)
         return new_copy 
+    
+    
+nums_to_letters = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h"}
+letters_to_nums = {"a":1,"b":2,"c":3,"d":4,"e":5,"f":6,"g":7,"h":8}  
+str_nums_to_nums = {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8}  
 
+def move_convert(move:str)-> list[int]:
+    """
+    input moves are given by letter:number where letters span the x axis and numbers the y axis
+    the internals of the chess game work with number1:number2 where number1 is the row on the grid and number 2 is the col of the grid this function looks to make this conversion
+    :param move[str]:
+    """
+    processed_move = []
+    for i in move:
+        if i in str_nums_to_nums:
+            processed_move.append(str_nums_to_nums[i])
+        elif i in letters_to_nums:
+            processed_move.append(letters_to_nums[i])
+            
+    #swap pairs
+    swap_pairs = lambda lst: [lst[i+1] if i % 2 == 0 else lst[i-1] for i in range(len(lst))]
+    processed_move = swap_pairs(processed_move)
+    return processed_move
+
+
+        
+            
+    
