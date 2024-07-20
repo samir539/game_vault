@@ -1,7 +1,7 @@
 from pieces import AbstractChessPiece,Pawn,Rook,Knight,Bishop,Queen,King
 from board import Board
 from game_functions import make_pieces
-from support_functions import format_of_move_valid 
+from support_functions import format_of_move_valid, move_convert, format_of_move_valid_alpha_numeric
 
 
 class Game:
@@ -31,12 +31,18 @@ class Game:
                 #prompt user to escape check
                 while True:
                     move = input(f"It is check for player {self.player_turn}, please address this...")
+                    while not format_of_move_valid_alpha_numeric(move):
+                        move = input(f"It is check for player {self.player_turn}, please address this...")
+                    move = move_convert(move)
                     _, friendly, enemy = self.board.update_board(move, self.player_turn, simulated_update=True)
                     if not self.board.look_for_check(self.player_turn, friendly, enemy):
                         self.board.update_board(move, self.player_turn, simulated_update=False)
                         break
             else:
                 move = input(f"{self.player_turn} please make a move\n")
+                while not format_of_move_valid_alpha_numeric(move):
+                    move = input(f"{self.player_turn} please make a move\n")
+                move = move_convert(move)
                 print(self.board.update_board(move,self.player_turn))        
             self._board.render()
             self._player_turn ^= 1
