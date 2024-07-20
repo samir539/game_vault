@@ -149,21 +149,21 @@ class Board:
         #check if end loc is in the set of potential moves 
         #if all checks pass move piece, update positions and remove pieces as neccessary
         
-        #convert given move from alphanumeric to just numeric (str -> list[int])
-        processed_move = []
-        for i in given_move:
-            i = int(i)
-            if i in nums_to_letters:
-                processed_move.append(i)
-            elif i in letters_to_nums:
-                processed_move.append(letters_to_nums[i])
-        start_pos, end_pos = concat(processed_move[0],processed_move[1]), concat(processed_move[2],processed_move[3])
+        # #convert given move from alphanumeric to just numeric (str -> list[int])
+        # processed_move = []
+        # for i in given_move:
+        #     i = int(i)
+        #     if i in nums_to_letters:
+        #         processed_move.append(i)
+        #     elif i in letters_to_nums:
+                # processed_move.append(letters_to_nums[i])
+        start_pos, end_pos = concat(given_move[0],given_move[1]), concat(given_move[2],given_move[3])
         
         
         piece_moved = friendly_pieces[start_pos]
         
         #check if valid move
-        if not self._check_valid_piece(processed_move,player_turn):
+        if not self._check_valid_piece(given_move,player_turn):
             return False
 
         #get the piece in question
