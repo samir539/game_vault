@@ -121,5 +121,26 @@ def move_convert(move:str)-> list[int]:
 
 
         
-            
+def format_of_move_valid_alpha_numeric(move):
+    """
+    check if proposed move in alphanumeric form could be valid (still does not mean it is necessarily valid)
+    """
+    if len(move) != 4:
+        return False
+    
+    start_file = move[0]
+    start_rank = move[1]
+    end_file = move[2]
+    end_rank = move[3]
+    
+    # check between 'a' and 'h'
+    if start_file not in 'abcdefgh' or end_file not in 'abcdefgh':
+        return False
+    
+    # check '1' and '8'
+    if start_rank not in '12345678' or end_rank not in '12345678':
+        return False
+
+    return True
+
     
